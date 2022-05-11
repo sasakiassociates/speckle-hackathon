@@ -2,7 +2,7 @@
  * In the future we can integrate these types into the actual viewer package
  */
 
-declare module '@speckle/viewer' {
+declare module '../hacky-sack/speckleviewer.esm.js' {
     declare class Viewer {
         constructor(params: {
             container: Node
