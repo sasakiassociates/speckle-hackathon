@@ -1,42 +1,52 @@
-import { Pane } from 'tweakpane'
-import { Viewer } from '@speckle/viewer'
+import {Pane} from 'tweakpane'
+import {Viewer} from '@speckle/viewer'
 import './style.css'
 
-const container = document.querySelector<HTMLDivElement>('#renderer')
-if (!container) {
-  throw new Error("Couldn't find #app container!")
-}
+async function doThing() {
+
+
+    const container = document.querySelector<HTMLDivElement>('#renderer')
+    if (!container) {
+        throw new Error("Couldn't find #app container!")
+    }
 
 // Viewer setup
-const viewer = new Viewer({
-  container,
-  showStats: true
-})
+    const viewer = new Viewer({
+        container,
+        showStats: true
+    })
 
-window.addEventListener('load', () => {
-  viewer.onWindowResize()
-})
+    window.addEventListener('load', () => {
+        viewer.onWindowResize()
+    })
 
 // Tweakpane setup
-const PARAMS = {
-  factor: 123,
-  title: 'hello',
-  color: '#ff0055'
-}
+    const PARAMS = {
+        factor: 123,
+        title: 'hello',
+        color: '#ff0055'
+    }
 
-const pane = new Pane()
+    const pane = new Pane()
 
-pane.addInput(PARAMS, 'factor')
-pane.addInput(PARAMS, 'title')
-pane.addInput(PARAMS, 'color')
+    pane.addInput(PARAMS, 'factor')
+    pane.addInput(PARAMS, 'title')
+    pane.addInput(PARAMS, 'color')
 
 // Load demo object
-viewer.loadObject(
-  'https://speckle.xyz/streams/99abc74dd4/objects/ab503a2025e706717bff467ef8f96488'
-)
+    await viewer.loadObject(
+        'https://speckle.xyz/streams/00613d79b2/objects/2decc3358e013f33da7af52fef29bb1b'
+    )
+    console.log(viewer.getObjectsProperties())
 
-viewer.on<{ progress: number; id: string; url: string }>('load-progress', (a) => {
-  if (a.progress >= 1) {
-    viewer.onWindowResize()
-  }
-})
+
+    await viewer.applyFilter({colorBy: {property: 'speckle_type', colors: {'Objects.Geometry.Brep': '#ff0000'}}})
+
+    viewer.on<{ progress: number; id: string; url: string }>('load-progress', (a) => {
+        if (a.progress >= 1) {
+            viewer.onWindowResize()
+        }
+    })
+}
+
+doThing();
