@@ -38,19 +38,61 @@ export const doThing = async () => {
     console.log(viewer.getObjectsProperties())
 
     console.log('applyFilter');
-    await viewer.applyFilter({
-        colorBy: {
-            type: 'category', property: 'speckle_type', values: {
-                'Objects.Geometry.Brep': '#a14c06',
-                'Objects.Geometry.Mesh': '#51933b'
-            }
-        },
-        ghostOthers: true
-    })
+    const setMeshColor = async (color) => {
+        await viewer.applyFilter({
+            colorBy: {
+                type: 'category', property: 'speckle_type', values: {
+                    'Objects.Geometry.Brep': '#a14c06',
+                    'Objects.Geometry.Mesh': color
+                }
+            },
+            ghostOthers: true
+        })
+    };
+    await setMeshColor('#51933b');
+
+    const text = pane.addBlade({
+        view: 'text',
+        label: 'speckle_type',
+        parse: (v) => String(v),
+        value: '-',
+    });
+    viewer.on('select', (e) => {
+        console.log('select', e);
+        if (e.userData.length > 0) {
+            text.value = e.userData[0].speckle_type;
+        } else {
+            text.value = '-';
+        }
+        pane.refresh();
+    });
+
 
     viewer.on('load-progress', (a) => {
         if (a.progress >= 1) {
             viewer.onWindowResize()
         }
     })
+
+
+    const btnDeselect = pane.addButton({
+        title: 'Deselect',
+    });
+    btnDeselect.on('click', () => {
+        viewer.interactions.deselectObjects()
+    });
+    const btn = pane.addButton({
+        title: 'Select',
+    });
+    btn.on('click', () => {
+        viewer.interactions.selectObjects(v => v.userData.speckle_type === 'Objects.Geometry.Brep')
+    });
+    pane.on('change', (ev) => {
+        if (ev.presetKey === 'color') {
+            setMeshColor(ev.value);
+
+        }
+        console.log('changed: ' + JSON.stringify(ev.value));
+    });
+
 }
