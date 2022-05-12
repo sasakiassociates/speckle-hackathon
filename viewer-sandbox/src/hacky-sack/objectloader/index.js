@@ -266,7 +266,7 @@ export default class ObjectLoader {
             this.totalSizeObjs.forEach((obj, i) => {
                 obj._size = this.totalSizes;
             });
-            console.log('Set size', id, size, this.sizes[id]);
+            // console.log('Set size', id, size, this.sizes[id]);
 
             this.buffer[id] = obj
             count += 1
