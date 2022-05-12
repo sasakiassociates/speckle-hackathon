@@ -27,8 +27,6 @@ export const doThing = async () => {
 
     const pane = new Pane()
 
-    pane.addInput(PARAMS, 'factor')
-    pane.addInput(PARAMS, 'title')
     pane.addInput(PARAMS, 'color')
 
 
@@ -96,10 +94,24 @@ export const doThing = async () => {
             ghostOthers: true
         })
     };
-    const filterArea = async () => {
+    const filterPoly = async () => {
         await viewer.applyFilter({
             filterBy: {
                 'speckle_type': ['Objects.Geometry.Polyline']
+            },
+            ghostOthers: true
+        })
+    };
+    const filterArea = async (filter) => {
+        await viewer.applyFilter({
+            filterBy: {
+                'area': filter
+            },
+            colorBy: {
+                type: 'category', property: 'speckle_type', values: {
+                    'Objects.Geometry.Brep': '#a14c06',
+                    'Objects.Geometry.Mesh': '#a14c06'
+                }
             },
             ghostOthers: true
         })
@@ -149,7 +161,13 @@ export const doThing = async () => {
         viewer.interactions.selectObjects(v => v.userData.area < 10 && v.userData.volume > 0)
     });
     button('Filter Poly', () => {
-        filterArea();
+        filterPoly();
+    });
+    button('Filter > 250', () => {
+        filterArea({ 'gte': 250 });
+    });
+    button('Filter < 250', () => {
+        filterArea({ 'lte': 250 });
     });
     button('Color by Area', () => {
         setGradientColorArea();

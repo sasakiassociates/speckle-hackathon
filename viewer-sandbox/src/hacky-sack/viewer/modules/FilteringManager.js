@@ -59,7 +59,7 @@ export default class FilteringManager {
       clone.material = clone.material.clone()
       clone.material.clippingPlanes = null
       clone.material.transparent = true
-      clone.material.opacity = 0.05
+      clone.material.opacity = 0.25
     } else {
       clone.visible = false
     }
