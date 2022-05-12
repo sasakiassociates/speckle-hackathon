@@ -73,6 +73,18 @@ export const doThing = async () => {
             }
         })
     };
+    const setGradientColorSize = async () => {
+        await viewer.applyFilter({
+            colorBy: {
+                'type': 'gradient',
+                'property': '_size',
+                'minValue': 0,
+                'maxValue': 250000,
+                'gradientColors': ['#000099', '#578836', '#e5e233'],
+                default: '#000000'
+            }
+        })
+    };
     const setBrepColor = async (color) => {
         await viewer.applyFilter({
             colorBy: {
@@ -144,6 +156,9 @@ export const doThing = async () => {
     });
     button('Color by Bounds', () => {
         setGradientColorVolume();
+    });
+    button('Color by Size', () => {
+        setGradientColorSize();
     });
     pane.on('change', (ev) => {
         if (ev.presetKey === 'color') {

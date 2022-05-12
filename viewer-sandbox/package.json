@@ -19,8 +19,6 @@
     "lint:tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "@speckle/viewer": "^2.4.2",
-    "@speckle/objectloader": "^2.4.2",
     "tweakpane": "^3.0.8"
   },
   "devDependencies": {
