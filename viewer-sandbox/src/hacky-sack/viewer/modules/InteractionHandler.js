@@ -245,12 +245,15 @@ export default class InteractionHandler {
     selectObjects(predicate) {
         const objects = this.viewer.sceneManager.filteredObjects.filter(predicate).map(o => ({object: o}));
         console.log('selectObjects', objects.length);
+        const restoreMultiSelect = this.selectionHelper.multiSelect;
         this.selectionHelper.multiSelect = objects.length > 1;
 
         objects.forEach((object, i) => {
             //dealing with some pretty ordinary code here... _handleSelect takes an array of objects, but only actually uses the first one!
             this._handleSelect([object]);
         });
+        this.selectionHelper.multiSelect = restoreMultiSelect;
+
     }
 
     zoomToObjectId(id) {
