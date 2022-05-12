@@ -19,7 +19,15 @@
     "lint:tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "tweakpane": "^3.0.8"
+    "core-js": "^3.21.1",
+    "tweakpane": "^3.0.8",
+    "@speckle/objectloader": "^2.4.2",
+    "camera-controls": "^1.33.1",
+    "hold-event": "^0.1.0",
+    "lodash.debounce": "^4.0.8",
+    "rainbowvis.js": "^1.0.1",
+    "regenerator-runtime": "^0.13.7",
+    "three": "^0.136.0"
   },
   "devDependencies": {
     "@tweakpane/core": "^1.0.9",
