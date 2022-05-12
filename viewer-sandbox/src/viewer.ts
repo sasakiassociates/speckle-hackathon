@@ -20,8 +20,6 @@ export const doThing = async () => {
 
 // Tweakpane setup
     const PARAMS = {
-        factor: 123,
-        title: 'hello',
         color: '#ff0055'
     }
 
