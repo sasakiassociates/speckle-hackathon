@@ -40,17 +40,34 @@ export const doThing = async () => {
     await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/eebc05e4a8bafecff0d03316bb03bd92');
     await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f84216590e0ea1db8ea90513cc1236e6');
     await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/3f41e7b029b2327ba4cc6b3036619d24');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/235ffb88c0131c8170bb8243dc3cb253');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/2713c90b8622d73923661dde76f2c597');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/99c214eba0c6c8bada81f1a256742764');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/0ae0f028a5ce34652226e74bbde9d63a');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f7f3b56df412a68e43e0f227e3fd3958');
     // await viewer.loadObject('https://speckle.xyz/streams/4777dea055/objects/d611a3e8bf64984c50147e3f9238c925');
     console.log(viewer.getObjectsProperties())
 
     console.log('applyFilter');
-    const setGradientColor = async () => {
+    const setGradientColorArea = async () => {
         await viewer.applyFilter({
             colorBy: {
                 'type': 'gradient',
                 'property': 'area',
                 'minValue': 0,
                 'maxValue': 500,
+                'gradientColors': ['#000099', '#ef75ef'],
+                default: '#000000'
+            }
+        })
+    };
+    const setGradientColorVolume = async () => {
+        await viewer.applyFilter({
+            colorBy: {
+                'type': 'gradient',
+                'property': 'bbox.volume',
+                'minValue': 0,
+                'maxValue': 5000,
                 'gradientColors': ['#000099', '#ef75ef'],
                 default: '#000000'
             }
@@ -100,36 +117,33 @@ export const doThing = async () => {
         }
     })
 
-
-    const btnDeselect = pane.addButton({
-        title: 'Deselect',
-    });
-    btnDeselect.on('click', () => {
+    const button = (title, click) => {
+        const btnDeselect = pane.addButton({
+            title: title,
+        });
+        btnDeselect.on('click', click);
+    };
+    button('Deselect', () => {
         viewer.interactions.deselectObjects()
     });
-    const btn = pane.addButton({
-        title: 'Select Brep',
-    });
-    btn.on('click', () => {
+    button('Select Brep', () => {
         viewer.interactions.selectObjects(v => v.userData.speckle_type === 'Objects.Geometry.Brep')
     });
-    const btnPoly = pane.addButton({
-        title: 'Select Poly',
-    });
-    btnPoly.on('click', () => {
+
+    button('Select Poly', () => {
         viewer.interactions.selectObjects(v => v.userData.speckle_type === 'Objects.Geometry.Polyline')
     });
-    const filterPoly = pane.addButton({
-        title: 'Filter Poly',
+    button('Select Small', () => {
+        viewer.interactions.selectObjects(v => v.userData.area < 10 && v.userData.volume > 0)
     });
-    filterPoly.on('click', () => {
+    button('Filter Poly', () => {
         filterArea();
     });
-    const colorGradient = pane.addButton({
-        title: 'Color by Area',
+    button('Color by Area', () => {
+        setGradientColorArea();
     });
-    colorGradient.on('click', () => {
-        setGradientColor();
+    button('Color by Bounds', () => {
+        setGradientColorVolume();
     });
     pane.on('change', (ev) => {
         if (ev.presetKey === 'color') {
