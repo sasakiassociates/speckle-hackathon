@@ -83,7 +83,7 @@ export const doThing = async () => {
             }
         })
     };
-    const setBrepColor = async (color) => {
+    const setBrepColor = async (color:string) => {
         await viewer.applyFilter({
             colorBy: {
                 type: 'category', property: 'speckle_type', values: {
@@ -102,7 +102,7 @@ export const doThing = async () => {
             ghostOthers: true
         })
     };
-    const filterArea = async (filter) => {
+    const filterArea = async (filter:any) => {
         await viewer.applyFilter({
             filterBy: {
                 'area': filter
@@ -121,27 +121,28 @@ export const doThing = async () => {
     const text = pane.addBlade({
         view: 'text',
         label: 'speckle_type',
-        parse: (v) => String(v),
+        parse: (v:any) => String(v),
         value: '-',
     });
-    viewer.on('select', (e) => {
+    viewer.on('select', (e:any) => {
         console.log('select', e);
         if (e.userData.length > 0) {
+            // @ts-ignore
             text.value = e.userData[0].speckle_type;
         } else {
+            // @ts-ignore
             text.value = '-';
         }
         pane.refresh();
     });
 
-
-    viewer.on('load-progress', (a) => {
+    viewer.on('load-progress', (a:any) => {
         if (a.progress >= 1) {
             viewer.onWindowResize()
         }
     })
 
-    const button = (title, click) => {
+    const button = (title:string, click:()=>void) => {
         const btnDeselect = pane.addButton({
             title: title,
         });
@@ -180,8 +181,7 @@ export const doThing = async () => {
     });
     pane.on('change', (ev) => {
         if (ev.presetKey === 'color') {
-            setBrepColor(ev.value);
-
+            setBrepColor(String(ev.value));
         }
         console.log('changed: ' + JSON.stringify(ev.value));
     });
