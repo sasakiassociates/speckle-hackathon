@@ -31,7 +31,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.17.10.tgz#711dc726a492dfc8be8220028b1b92482362baab"
   integrity sha512-GZt/TCsG70Ms19gfZO1tM4CVnXsPgEPBCpJu+Qz3L0LUDsY5nZqFZglIoPC1kIYOtNBZlrnFT+klg12vFGZXrw==
 
-"@babel/core@^7.1.0", "@babel/core@^7.11.1", "@babel/core@^7.12.3", "@babel/core@^7.16.0", "@babel/core@^7.17.9", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+"@babel/core@^7.1.0", "@babel/core@^7.11.1", "@babel/core@^7.12.3", "@babel/core@^7.16.0", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.17.10"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.17.10.tgz#74ef0fbf56b7dfc3f198fc2d927f4f03e12f4b05"
   integrity sha512-liKoppandF3ZcBnIYFjfSDHZLKdLHGJRkoWtG8zQyGJBQfIYobpnVGI5+pLBNtS6psFLDzyq8+h5HiVljW9PNA==
@@ -1532,29 +1532,6 @@
   integrity sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
-
-"@speckle/objectloader@^2.5.4":
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/@speckle/objectloader/-/objectloader-2.5.4.tgz#e6df26e302bc67547471fa32f41356fe4389d765"
-  integrity sha512-swYL0gPnQAtJYJCjIJD2nbB7PUR4sxX42YOEEIueyVjPq/dhi4/Ie5HJE1bckyW2goLTDXDLyB57b+toV39EhQ==
-  dependencies:
-    "@babel/core" "^7.17.9"
-    core-js "^3.21.1"
-    regenerator-runtime "^0.13.7"
-
-"@speckle/viewer@^2.5.4":
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/@speckle/viewer/-/viewer-2.5.4.tgz#fe3abd551add8292463b967ba3fa7f72e0963d64"
-  integrity sha512-+k4XzSHH4toFplHX1deFfbiad7icpVrohmbye82izbRCg4WKyR5jpGfRXDmxc3afopW0eV5oKw/m+WwytrSSWg==
-  dependencies:
-    "@speckle/objectloader" "^2.5.4"
-    camera-controls "^1.33.1"
-    core-js "^3.21.1"
-    hold-event "^0.1.0"
-    lodash.debounce "^4.0.8"
-    rainbowvis.js "^1.0.1"
-    regenerator-runtime "^0.13.7"
-    three "^0.136.0"
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
@@ -8215,6 +8192,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+tweakpane@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/tweakpane/-/tweakpane-3.0.8.tgz#e9138020ff4dc13a86cf1b2276ff5a2b5921df5c"
+  integrity sha512-vJuB0346B6gMpxnFDJyy2wcEshkvcTpQ74TCqJTeFaDvzq9FL29h5KszT1+YUTLlP+26OQI8PFGN8WbtOQStnQ==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
