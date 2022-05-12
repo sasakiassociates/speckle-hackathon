@@ -10,16 +10,13 @@ Sandbox for testing, debugging & developing the viewer package
 
 ### Instructions
 
-- `npm install` in this package
-- `npx lerna bootstrap` in repo root to set up symlink with viewer package
-- `npm run dev` to run the sandbox, it's available at `localhost:3033`
+- `yarn install` in this package
+- `yarn run dev` to run the sandbox, it's available at `localhost:3033`
 
 ## Linting
 
 Use `npm run lint` to run ESLint and you can also run `npm run lint:tsc` to lint with the TypeScript compiler
 
+## hacky-sack
 
-## @speckle/objectloader
-NOTE: npm package for objectloader does not contain dist folder
-HACK(athon) solution. run `speckle-server\packages\objectloader>npm run build:dev` the MANUALLY COPY the dist folder into `node_modules`
-for convenience the dist is also copied to _hacky_even_for_a_hackathon/objloader/dist
+Speckle's npm packages are correctly configured with 'dist' folders. This folder provides a hacky workaround that just pulls everything down locally. This also lets us add custom code (like size counts and selection support).
