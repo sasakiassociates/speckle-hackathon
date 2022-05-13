@@ -1,5 +1,36 @@
+import {EntityLeafNode, EntityTreeNode} from "./EntityLeafNode";
+
+export default function speckleTestData() {
+
+    let leaf1: EntityLeafNode = {
+        speckle_type: 'Objects.Geometry.Mesh',
+        size : 10,
+        id : '1234'
+    }
+
+    let leaf2: EntityLeafNode = {
+        speckle_type: 'Objects.Geometry.Mesh',
+        size : 20,
+        id : '1234'
+    }
+
+    let leaf3: EntityLeafNode = {
+        speckle_type: 'Objects.Geometry.Mesh',
+        size : 30,
+        id : '1234'
+    }
+
+    let node: EntityTreeNode = {
+        name: 'MeshTree',
+        children: [leaf1,leaf2,leaf3]
+    };
+
+    return node;
+}
+
+
 const data = {
-    name: 'Celtics',
+    name: 'Commit',
     children: [
         {
             name: 'Guards',
@@ -104,4 +135,4 @@ const data = {
     ],
 };
 
-export default data;
+// export default data;

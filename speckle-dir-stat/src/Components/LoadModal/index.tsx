@@ -14,6 +14,8 @@ export default observer(function LoadModal() {
 
     const start = useCallback(() => {
         app.makeUnclean();
+        // app.loadDataFromStream();
+
         ui.setLoadModalOpen(false);
     }, []);
 

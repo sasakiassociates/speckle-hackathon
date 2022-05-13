@@ -3,19 +3,21 @@ import { useEffect, useRef } from "react";
 import { Viewer } from './viewer'
 import { autorun, reaction } from "mobx";
 import Entities, { Entity } from "../../stores/Entities";
-import { useStores } from "@strategies/stores";
+import { useStores, stores } from "@strategies/stores";
 import { Stores } from "../../stores";
 
 //making a react component with mobx that can interface with e.g. selections
 
 const loadEntities = async (viewer: Viewer, entities: Entities) => {
-    await viewer.loadObject(`https://speckle.xyz/streams/00613d79b2/objects/9683eb354c0fc9a725756528f4007645`)
+    const { app } = stores as Stores;
+
+    await viewer.loadObject(`https://speckle.xyz/streams/${app.streamId}/objects/${app.objectId}`)
     // for await (const entity of entities.list) {
     //     ;//${entity.id}`);
     //
     // }
 
-    console.log(viewer.allObjects.filter(o => !!o.userData?.id));
+    // console.log(viewer.allObjects.filter(o => !!o.userData?.id));
 
     for (const o of viewer.allObjects.filter(o => !!o.userData?.id)) {
         // const entity = entities.list.find(e => e.id === o.userData.id);
@@ -23,10 +25,11 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
         entity.setSize(o.userData._size);
         entity.setArea(o.userData.area);
         entity.setVolume(o.userData.volume);
-        entity.setBoundingVolume(o.userData.bbox.volume);
+        entity.setBoundingVolume(o.userData.bbox?.volume);
         entity.setObjectType(o.userData.speckle_type);
         entities.addEntity(entity);
     }
+
 
     // autorun(() => {
     //     const selectedIds = entities.list.filter(e => e.selected).map(e => e.id);
@@ -73,6 +76,8 @@ type ViewerProps = {
 };
 
 export const ViewerControl = observer(({ }: ViewerProps) => {
+
+    // @ts-ignore
     const { entities } = useStores() as Stores;
 
     const viewer = useRef<Viewer | null>(null);

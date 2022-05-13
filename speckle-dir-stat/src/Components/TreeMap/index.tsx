@@ -1,13 +1,14 @@
 import {useRef, useEffect} from 'react';
 import * as d3 from 'd3';
-
-import {SpeckleLeafNode, SpeckleTreeNode} from "./SpeckleLeafNode";
 import {ColorCommonInstance} from "d3";
+import {Entity} from "../../stores/Entities";
+import {observer} from "mobx-react";
 
-export type TreeMapProps = { data: any, width: number, height: number };
+export type TreeMapProps = { data: Entity[], width: number, height: number };
+
 
 // copy pasta from https://github.com/russ430/treemap/blob/master/src/Treemap.js
-export default function Treemap({data, width, height}: TreeMapProps) {
+export const Treemap = observer(({data, width, height}: TreeMapProps) => {
     const svgRef = useRef(null);
     const legendRef = useRef(null);
 
@@ -20,15 +21,26 @@ export default function Treemap({data, width, height}: TreeMapProps) {
 
         svg.attr('width', width).attr('height', height);
 
+        console.log("Data");
+        console.log(data);
+
+        let nestedData = d3.group(data, d => d.size);
+
+        console.log("Nested Data");
+        console.log(nestedData);
         // check what this does
         const root = d3
             .hierarchy(data)
-            .sum((d) => d.value)
-            // @ts-ignore
-            .sort((a, b) => b!.value - a!.value);
+            .sum(d => d.length)
+        // @ts-ignore
+        .sort((a, b) => b!.length - a!.length)
+
+        console.log("Root");
+        console.log(root);
 
         // create treemap layout
         const treemapRoot = d3.treemap().size([width, height]).padding(1)(root);
+
 
         // create 'g' element nodes based on data
         const nodes = svg
@@ -47,7 +59,7 @@ export default function Treemap({data, width, height}: TreeMapProps) {
             .attr('width', (d) => d.x1 - d.x0)
             .attr('height', (d) => d.y1 - d.y0)
             // @ts-ignore
-            .attr('fill', (d) => colorScale(d.data.category));
+            .attr('fill', (d) => colorScale(d.value));
 
         const fontSize = 12;
 
@@ -55,7 +67,7 @@ export default function Treemap({data, width, height}: TreeMapProps) {
         nodes
             .append('text')
             // @ts-ignore
-            .text((d ) => `${d.data} ${d.data.value}`)
+            .text((d) => `${d.data} ${d.data.value}`)
             .attr('data-width', (d) => d.x1 - d.x0)
             .attr('font-size', `${fontSize}px`)
             .attr('x', 3)
@@ -105,7 +117,8 @@ export default function Treemap({data, width, height}: TreeMapProps) {
         }
 
         // pull out hierarchy categories
-        let categories = root.leaves().map((node) => node.data.speckle_type);
+        let categories = root.leaves().map((node) => node.data);
+
         categories = categories.filter(
             (category, index, self) => self.indexOf(category) === index,
         );
@@ -122,7 +135,7 @@ export default function Treemap({data, width, height}: TreeMapProps) {
             .attr('height', fontSize)
             .attr('x', fontSize)
             .attr('y', (_, i) => fontSize * 2 * i)
-            .attr('fill', (d) => colorScale(d));
+        // .attr('fill', (d) => colorScale(d));
 
         // add text to each category key
         legend
@@ -131,7 +144,7 @@ export default function Treemap({data, width, height}: TreeMapProps) {
             .attr('x', fontSize * 3)
             .attr('y', (_, i) => fontSize * 2 * i)
             .style('font-size', fontSize)
-            .text((d) => d);
+            // .text((d) => d.name);
     }
 
 
@@ -144,4 +157,4 @@ export default function Treemap({data, width, height}: TreeMapProps) {
             <svg ref={svgRef}/>
         </div>
     )
-}
+});
