@@ -39,6 +39,7 @@ const tooltipStyles = {
 export type TreemapVisProps = {
     treeTotals: TreeNode[];
     background: string;
+    getStroke?: (node: any) => string;
     width: number;
     strokeOpacity?: number;
     sliceDice?: boolean;
@@ -53,7 +54,7 @@ let tooltipTimeout: number;
 // export default withTooltip<TreemapVisProps, TooltipData>({ width, height, treeTotals, margin = defaultMargin }: TreemapVisProps & WithTooltipProvidedProps<TooltipData>) {
 export default withTooltip<TreemapVisProps, TooltipData>(
     ({
-         getColor, background, sliceDice, strokeOpacity, onClick,
+         getColor, background, getStroke, sliceDice, strokeOpacity, onClick,
          width, height, treeTotals, margin = defaultMargin,
          tooltipOpen,
          tooltipLeft,
@@ -150,11 +151,11 @@ export default withTooltip<TreemapVisProps, TooltipData>(
                                                     )}
                                                     {(!node.children || node.children.length === 0) &&
                                                         <rect
-                                                            rx={4}
-                                                            ry={4}
+                                                            // rx={4}
+                                                            // ry={4}
                                                             width={nodeWidth}
                                                             height={nodeHeight}
-                                                            stroke={background}
+                                                            stroke={(getStroke && getStroke(node)) || background}
                                                             strokeOpacity={strokeOpacity}
                                                             fill={getColor(node)}
                                                             onMouseLeave={() => {
