@@ -21,9 +21,9 @@ const getStroke = (node: any) => {
     const {selected} = node.data.data;
     // if (!entity) return '#000000';
     if (selected) {
-        return '#0000ff'
+        return {strokeColor: '#0000ff', strokeWidth: 3, strokeOpacity: 1}
     }
-    return '#ffffff';
+    return {strokeColor: '#ffffff', strokeWidth: 1, strokeOpacity: 0.5}
 };
 
 
