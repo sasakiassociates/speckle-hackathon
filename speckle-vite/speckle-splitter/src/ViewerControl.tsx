@@ -22,9 +22,11 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
     // })
 
     let selfInflicted = false;
+    let dontReact = false;
     reaction(
         () => entities.selectedIds,
         selectedIds => {
+            if (dontReact) return;
             selfInflicted = true;
             viewer.interactions.selectObjects(v => selectedIds.indexOf(v.userData.id) >= 0);
             selfInflicted = false;
@@ -35,6 +37,7 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
         if (selfInflicted) return;
         console.log('select', e);
 
+        dontReact = true;
         if (e.userData.length > 0) {
             const ids = e.userData.map((v: { id: any; }) => v.id);
             console.log('selected ID', ids);
@@ -48,6 +51,7 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
                 entity.setSelected(false);
             }
         }
+        dontReact = false;
     });
 }
 
