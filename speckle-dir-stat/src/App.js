@@ -1,16 +1,16 @@
-import './App.css';
+import './App.scss';
+
 import {SpeckleApi} from "./Components/SpeckleApi";
+import SpeckleViewer from "./Components/SpeckleViewer";
 
-// import {SpeckleViewer} from "./Components/SpeckleViewer";
 
-async function App() {
+export default function App() {
 
-    await SpeckleApi();
+    //await SpeckleApi();
 
     return (
         <div className="App">
+            <SpeckleViewer />
         </div>
     );
 }
-
-export default App;

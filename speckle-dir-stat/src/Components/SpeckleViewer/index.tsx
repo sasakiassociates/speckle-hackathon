@@ -1,10 +1,27 @@
-import {Viewer} from './viewer'
-import {Pane} from 'tweakpane';
+import { useCallback, useState } from 'react';
+import { Pane } from 'tweakpane'; 
 
-export const SpeckleViewer = async () => {
-    const container = document.querySelector('#renderer')
+import { Viewer } from './viewer';
+
+
+export default function SpeckleViewer() {
+    const [viewer, setViewer] = useState<Promise<number>|null>(null);
+
+    const mount = useCallback((el: HTMLElement|null) => {
+        if (el && viewer === null) {
+            setViewer(ViewerHelper(el));
+        }
+    }, [viewer]);
+
+    return (
+        <div className="SpeckleViewer" ref={(el: HTMLElement|null) => mount(el)} />
+    )
+};
+
+
+const ViewerHelper = async (container: HTMLElement) => {
     if (!container) {
-        throw new Error("Couldn't find #app container!")
+        throw new Error("Couldn't find container");
     }
 
 // Viewer setup
@@ -30,21 +47,21 @@ export const SpeckleViewer = async () => {
     pane.addInput(PARAMS, 'color')
 
 
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/2decc3358e013f33da7af52fef29bb1b');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/69bfa91caf1fc4b0c82211cd92387bfb');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/e2102416acdd10b49b51c58acdf02099');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f6499a518b7d56fdf918aaa1dda02ee6');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/47216939852a6a177a8ae8b924140c65');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/eebc05e4a8bafecff0d03316bb03bd92');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f84216590e0ea1db8ea90513cc1236e6');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/3f41e7b029b2327ba4cc6b3036619d24');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/235ffb88c0131c8170bb8243dc3cb253');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/2713c90b8622d73923661dde76f2c597');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/99c214eba0c6c8bada81f1a256742764');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/0ae0f028a5ce34652226e74bbde9d63a');
-    // await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f7f3b56df412a68e43e0f227e3fd3958');
-    // await viewer.loadObject('https://speckle.xyz/streams/4777dea055/objects/d611a3e8bf64984c50147e3f9238c925');
-    // console.log(viewer.getObjectsProperties())
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/2decc3358e013f33da7af52fef29bb1b');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/69bfa91caf1fc4b0c82211cd92387bfb');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/e2102416acdd10b49b51c58acdf02099');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f6499a518b7d56fdf918aaa1dda02ee6');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/47216939852a6a177a8ae8b924140c65');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/eebc05e4a8bafecff0d03316bb03bd92');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f84216590e0ea1db8ea90513cc1236e6');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/3f41e7b029b2327ba4cc6b3036619d24');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/235ffb88c0131c8170bb8243dc3cb253');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/2713c90b8622d73923661dde76f2c597');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/99c214eba0c6c8bada81f1a256742764');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/0ae0f028a5ce34652226e74bbde9d63a');
+    await viewer.loadObject('https://speckle.xyz/streams/00613d79b2/objects/f7f3b56df412a68e43e0f227e3fd3958');
+    await viewer.loadObject('https://speckle.xyz/streams/4777dea055/objects/d611a3e8bf64984c50147e3f9238c925');
+    //console.log(viewer.getObjectsProperties())
 
     const setGradientColorArea = async () => {
         await viewer.applyFilter({
@@ -185,4 +202,5 @@ export const SpeckleViewer = async () => {
         console.log('changed: ' + JSON.stringify(ev.value));
     });
 
+    return Math.random();
 }
