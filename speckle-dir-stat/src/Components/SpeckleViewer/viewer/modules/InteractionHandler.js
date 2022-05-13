@@ -141,45 +141,44 @@ export default class InteractionHandler {
                 this.selectedObjectsUserData.splice(objIdIndexCheck, 1)
                 this.deselectObj(rootBlock ? rootBlock.userData.id : objs[0].object.userData.id)
             }
-            return
-        }
-
-        switch (selType) {
-            case 'Block': {
-                const blockObjs = this.getBlockObjectsCloned(rootBlock)
-                for (const child of blockObjs) {
-                    child.userData = {id: rootBlock.userData.id}
-                    child.material = this.selectionMeshMaterial
-                    this.selectedObjects.add(child)
-                    //this.viewer.outlinePass.selectedObjects.push( child )
-                }
-                break
-            }
-            case 'Mesh': {
-                const m = new THREE.Mesh(objs[0].object.geometry, this.selectionMeshMaterial)
-                m.userData = {id: objs[0].object.userData.id}
-                this.selectedObjects.add(m)
-                //this.viewer.outlinePass.selectedObjects.push( new THREE.Mesh( objs[0].object.geometry, this.selectionMeshMaterial ) )
-                break
-            }
-            case 'Line': {
-                const l = new THREE.Line(objs[0].object.geometry, this.selectionMeshMaterial)
-                l.userData = {id: objs[0].object.userData.id}
-                this.selectedObjects.add(l)
-                //this.viewer.outlinePass.selectedObjects.push( new THREE.Line( objs[0].object.geometry, this.selectionMeshMaterial ) )
-                break
-            }
-            case 'Point':
-                console.warn('Point selection not implemented.')
-                return // exit the whole func here, points cause all sorts of trouble when being selected (ie, bbox stuff)
-        }
-
-        if (selType === 'Block') {
-            this.selectedObjectsUserData.push(rootBlock.userData)
-            this.selectedRawObjects.push(rootBlock)
         } else {
-            this.selectedObjectsUserData.push(objs[0].object.userData)
-            this.selectedRawObjects.push(objs[0])
+            switch (selType) {
+                case 'Block': {
+                    const blockObjs = this.getBlockObjectsCloned(rootBlock)
+                    for (const child of blockObjs) {
+                        child.userData = {id: rootBlock.userData.id}
+                        child.material = this.selectionMeshMaterial
+                        this.selectedObjects.add(child)
+                        //this.viewer.outlinePass.selectedObjects.push( child )
+                    }
+                    break
+                }
+                case 'Mesh': {
+                    const m = new THREE.Mesh(objs[0].object.geometry, this.selectionMeshMaterial)
+                    m.userData = {id: objs[0].object.userData.id}
+                    this.selectedObjects.add(m)
+                    //this.viewer.outlinePass.selectedObjects.push( new THREE.Mesh( objs[0].object.geometry, this.selectionMeshMaterial ) )
+                    break
+                }
+                case 'Line': {
+                    const l = new THREE.Line(objs[0].object.geometry, this.selectionMeshMaterial)
+                    l.userData = {id: objs[0].object.userData.id}
+                    this.selectedObjects.add(l)
+                    //this.viewer.outlinePass.selectedObjects.push( new THREE.Line( objs[0].object.geometry, this.selectionMeshMaterial ) )
+                    break
+                }
+                case 'Point':
+                    console.warn('Point selection not implemented.')
+                    return // exit the whole func here, points cause all sorts of trouble when being selected (ie, bbox stuff)
+            }
+
+            if (selType === 'Block') {
+                this.selectedObjectsUserData.push(rootBlock.userData)
+                this.selectedRawObjects.push(rootBlock)
+            } else {
+                this.selectedObjectsUserData.push(objs[0].object.userData)
+                this.selectedRawObjects.push(objs[0])
+            }
         }
 
         const box = new THREE.Box3().setFromObject(this.selectedObjects)
@@ -256,6 +255,7 @@ export default class InteractionHandler {
         objects.forEach((object, i) => {
             //dealing with some pretty ordinary code here... _handleSelect takes an array of objects, but only actually uses the first one!
             this._handleSelect([object], i < objects.length - 1);
+            console.log(i, i < objects.length - 1, object);
         });
         this.selectionHelper.multiSelect = restoreMultiSelect;
         this.viewer.needsRender = true;
