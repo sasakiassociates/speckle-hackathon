@@ -25,6 +25,7 @@ export default class UIStore extends Store {
         this.selectionPanelIsOpen = isOpen;
     }
 
+
     @computed
     get layout(): string {
         if (!this.dataPanelIsOpen) {
