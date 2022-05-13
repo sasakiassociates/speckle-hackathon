@@ -2,16 +2,30 @@ import { observer } from "mobx-react";
 import { useEffect, useRef } from "react";
 import { Viewer } from './viewer'
 import { autorun, reaction } from "mobx";
-import Entities from "../../stores/Entities";
+import Entities, { Entity } from "../../stores/Entities";
 import { useStores } from "@strategies/stores";
 import { Stores } from "../../stores";
 
 //making a react component with mobx that can interface with e.g. selections
 
 const loadEntities = async (viewer: Viewer, entities: Entities) => {
-    for await (const entity of entities.list) {
-        await viewer.loadObject(`https://speckle.xyz/streams/00613d79b2/objects/${entity.id}`);
+    await viewer.loadObject(`https://speckle.xyz/streams/00613d79b2/objects/9683eb354c0fc9a725756528f4007645`)
+    // for await (const entity of entities.list) {
+    //     ;//${entity.id}`);
+    //
+    // }
 
+    console.log(viewer.allObjects.filter(o => !!o.userData?.id));
+
+    for (const o of viewer.allObjects.filter(o => !!o.userData?.id)) {
+        // const entity = entities.list.find(e => e.id === o.userData.id);
+        const entity = new Entity(o.userData.id);
+        entity.setSize(o.userData._size);
+        entity.setArea(o.userData.area);
+        entity.setVolume(o.userData.volume);
+        entity.setBoundingVolume(o.userData.bbox.volume);
+        entity.setObjectType(o.userData.speckle_type);
+        entities.addEntity(entity);
     }
 
     // autorun(() => {

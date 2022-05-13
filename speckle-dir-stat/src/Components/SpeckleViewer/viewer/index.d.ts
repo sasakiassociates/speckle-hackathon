@@ -21,6 +21,8 @@ declare class Viewer {
 
     getObjectsProperties(includeAll = true): any;
 
+    allObjects: any[];
+
     async loadObject(url: string, token?: string, enableCaching? = true): Promise<void>
 
     onWindowResize(): void
