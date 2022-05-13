@@ -23,7 +23,7 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
         entity.setSize(o.userData._size);
         entity.setArea(o.userData.area);
         entity.setVolume(o.userData.volume);
-        entity.setBoundingVolume(o.userData.bbox.volume);
+        entity.setBoundingVolume(o.userData.bbox?.volume);
         entity.setObjectType(o.userData.speckle_type);
         entities.addEntity(entity);
     }
