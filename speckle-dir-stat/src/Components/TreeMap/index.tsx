@@ -24,14 +24,14 @@ export const Treemap = observer(({data, width, height}: TreeMapProps) => {
         console.log("Data");
         console.log(data);
 
-        let nestedData = d3.group(data, d => d.size);
+        let nestedData = d3.group(data, d => d.objectType);
 
         console.log("Nested Data");
         console.log(nestedData);
         // check what this does
         const root = d3
             .hierarchy(data)
-            .sum(d => d.length)
+            .sum((d : any) => {d.size} )
         // @ts-ignore
         .sort((a, b) => b!.length - a!.length)
 
@@ -40,7 +40,6 @@ export const Treemap = observer(({data, width, height}: TreeMapProps) => {
 
         // create treemap layout
         const treemapRoot = d3.treemap().size([width, height]).padding(1)(root);
-
 
         // create 'g' element nodes based on data
         const nodes = svg
