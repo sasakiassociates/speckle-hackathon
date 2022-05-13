@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Rainbow from '../../../../../node_modules/rainbowvis.js/rainbowvis'
+import Rainbow from 'rainbowvis.js'
 
 export default class FilteringManager {
   constructor(viewer) {

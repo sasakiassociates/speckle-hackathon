@@ -1,0 +1,14 @@
+.List {
+  z-index: 5;
+  padding: 0.5em;
+    border: 1px solid red;
+  .ListItem {
+    cursor: pointer;
+    border: 1px solid #999999;
+    padding: 0.5em;
+    &.selected {
+      border: 1px solid #000000;
+      font-weight: bold;
+    }
+  }
+}
