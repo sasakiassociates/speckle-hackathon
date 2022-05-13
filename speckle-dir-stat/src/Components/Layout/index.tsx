@@ -4,6 +4,7 @@ import {useStores} from '@strategies/stores';
 import {Stores} from '../../stores';
 import DataPanel from '../DataPanel';
 import SelectionPanel from '../SelectionPanel';
+import MenuBar from '../MenuBar';
 
 
 export default observer(function Layout() {
@@ -11,6 +12,10 @@ export default observer(function Layout() {
 
     return (
         <div className={`Layout ${ui.layout}`}>
+            <div className="navigation">
+                <MenuBar />
+            </div>
+
             <DataPanel/>
             <SelectionPanel/>
         </div>

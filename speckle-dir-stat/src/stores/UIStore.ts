@@ -16,7 +16,15 @@ export default class UIStore extends Store {
     setDataPanelOpen(isOpen = true) {
         this.dataPanelIsOpen = isOpen;
     }
- 
+
+    @observable
+    loadModalIsOpen: boolean = true;
+
+    @action
+    setLoadModalOpen(isOpen = true) {
+        this.loadModalIsOpen = isOpen;
+    }
+
     @observable
     selectionPanelIsOpen: boolean = true;
 
@@ -24,7 +32,6 @@ export default class UIStore extends Store {
     setSelectionPanelOpen(isOpen = true) {
         this.selectionPanelIsOpen = isOpen;
     }
-
 
     @computed
     get layout(): string {
