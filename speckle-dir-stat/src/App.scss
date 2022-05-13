@@ -1,12 +1,11 @@
-@import '~@strategies/tokens';
+@use '~@strategies/tokens/animation';
+@use '~@strategies/tokens/layout';
 
+@import '~@strategies/tokens';
+@import './Components/Layout';
+@import './Components/DataPanel';
+@import './Components/SelectionPanel';
 @import './Components/SpeckleViewer';
 
-.layout {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-}
+
+
