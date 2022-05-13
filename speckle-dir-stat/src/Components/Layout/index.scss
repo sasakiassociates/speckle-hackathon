@@ -1,3 +1,6 @@
+@use '~@strategies/tokens/animation';
+@use '~@strategies/tokens/layout';
+
 .Layout {
     position: absolute;
     top: 0;
@@ -45,6 +48,11 @@
         grid-row-end: 2;
         grid-column-start: 1;
         grid-column-end: 2;
+        pointer-events: none; // prevent blocking mouse events to canvas
+    }
+
+    .TopRibbon--slot {
+        pointer-events: all;//override for the above so user can click buttons
     }
 }
 

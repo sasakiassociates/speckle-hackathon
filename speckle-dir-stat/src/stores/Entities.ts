@@ -1,5 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { Store } from "@strategies/stores";
+import { TreeNode } from "./interfaces";
+import chroma from "chroma-js"
 
 export class Entity {
     constructor(id: string) {
@@ -63,18 +65,6 @@ export default class Entities extends Store {
         makeObservable(this);
     }
 
-    onRegister() {
-        //TEMP
-        // this.addEntity(new Entity('9683eb354c0fc9a725756528f4007645'));
-        // this.addEntity(new Entity('2decc3358e013f33da7af52fef29bb1b'));
-        // this.addEntity(new Entity('69bfa91caf1fc4b0c82211cd92387bfb'));
-        // this.addEntity(new Entity('e2102416acdd10b49b51c58acdf02099'));
-        // this.addEntity(new Entity('f6499a518b7d56fdf918aaa1dda02ee6'));
-        // this.addEntity(new Entity('47216939852a6a177a8ae8b924140c65'));
-        // this.addEntity(new Entity('eebc05e4a8bafecff0d03316bb03bd92'));
-        // this.addEntity(new Entity('f84216590e0ea1db8ea90513cc1236e6'));
-    }
-
     //endregion
 
     //region fields
@@ -90,6 +80,14 @@ export default class Entities extends Store {
     @action
     public addEntity(entity: Entity) {
         this.list.push(entity);
+    }
+
+    @action
+    public toggleSelection(id: string) {
+        const entity = this.list.find(e => e.id === id);
+        if (entity) {
+            entity.setSelected(!entity.selected);
+        }
     }
 
     //endregion
@@ -119,9 +117,52 @@ export default class Entities extends Store {
     }
 
 
+    @computed
+    get colorRamp() {
+        return chroma.scale([
+            '#1f0454',
+            // '#6f2b97',
+            '#c8255c',
+            // '#eeac1a',
+            // '#ffe800',
+            // '#fffc9e'
+        ]).domain([1000,0]).mode('lch');
+    }
+
+    getColor(value: number) {
+        return this.colorRamp(value).hex();
+    }
+
+    @computed
+    get activeTreeMap(): TreeNode[] {
+        const hierarchy: TreeNode[] = [];
+        const rootNode = {
+            parent: undefined,
+            id: '_root',
+            area: 0,
+        }
+        hierarchy.push(rootNode);
+
+        this.list.forEach((item, i) => {
+            hierarchy.push({
+                parent: rootNode.id,
+                id: item.id,
+                area: item.size,
+                selected: item.selected,
+                category: item.objectType,
+                color: this.getColor(item.size / item.boundingVolume),
+                label: [`${item.size}`, `${item.size / item.boundingVolume}`],
+            })
+        });
+
+        return hierarchy;
+    }
+
+
     //endregion
 
     //region public methods
+
 
     //endregion
 

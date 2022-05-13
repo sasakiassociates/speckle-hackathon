@@ -50,9 +50,7 @@ export default class ObjectLoader {
         this.promises = []
         this.intervals = {}
         this.buffer = []
-        this.sizes = {};
-        this.totalSizes = 0;
-        this.totalSizeObjs = [];
+
         this.isLoading = false
         this.totalChildrenCount = 0
         this.traversedReferencesCount = 0
@@ -252,21 +250,6 @@ export default class ObjectLoader {
         let count = 0
         for await (const line of this.getRawObjectIterator()) {
             const {id, obj} = this.processLine(line)
-
-            const size = line.length;
-            if (!this.sizes[id]) this.sizes[id] = 0;
-            this.sizes[id] += size;
-
-            //TODO SUPER HACKY -- currently ALL objects get the size applied, we should figure out how the chunk sizes
-            //should be applied to each object and how the sub-objects relate to the parents...
-
-            this.totalSizes += size;
-            // obj._size = this.sizes[id];
-            this.totalSizeObjs.push(obj);
-            this.totalSizeObjs.forEach((obj, i) => {
-                obj._size = this.totalSizes;
-            });
-            // console.log('Set size', id, size, this.sizes[id]);
 
             this.buffer[id] = obj
             count += 1

@@ -4,7 +4,7 @@ import {useStores} from '@strategies/stores';
 import {Panel, Title, Toggle, Body} from '@strategies/ui';
 
 import {Stores} from '../../stores';
-import {Treemap} from "../TreeMap";
+import SpaceTreemap from "../TreeMap/SpaceTreemap";
 
 export default observer(function DataPanel() {
     const {ui, entities} = useStores() as Stores;
@@ -18,7 +18,9 @@ export default observer(function DataPanel() {
             <Title>Stream as Data</Title>
             <Toggle><FiGrid/></Toggle>
             <Body>
-                {entities.list.length > 0 && <Treemap data={entities.list} width={400} height={300}/>}
+                {/*<Treemap data={data} width={400} height={300}/>*/}
+                <SpaceTreemap width={800} height={400}
+                              treeTotals={entities.activeTreeMap}/>
             </Body>
         </Panel>
     );
