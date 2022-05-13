@@ -1,8 +1,8 @@
 import './App.scss';
 
-import {SpeckleApi} from "./Components/SpeckleApi";
+//import {SpeckleApi} from "./Components/SpeckleApi";
 import SpeckleViewer from "./Components/SpeckleViewer";
-import DataPanel from './Components/DataPanel';
+import Layout from './Components/Layout';
 
 
 export default function App() {
@@ -12,10 +12,7 @@ export default function App() {
     return (
         <div className="App">
             <SpeckleViewer />
-
-            <div className="layout">
-                <DataPanel />
-            </div>
+            <Layout />
         </div>
     );
 }

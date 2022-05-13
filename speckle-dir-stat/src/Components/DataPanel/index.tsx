@@ -1,10 +1,12 @@
+import { observer} from 'mobx-react';
 import { FiGrid } from 'react-icons/fi';
 import { useStores } from '@strategies/stores';
 import { Panel, Title, Toggle, Body } from '@strategies/ui';
 
 import { Stores } from '../../stores';
 
-export default function DataPanel() {
+
+export default observer(function DataPanel() {
     const { ui } = useStores() as Stores;
 
     return (
@@ -19,4 +21,4 @@ export default function DataPanel() {
             </Body>
         </Panel>
     );
-}
+});

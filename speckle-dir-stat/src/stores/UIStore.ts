@@ -1,5 +1,5 @@
 import { Store } from '@strategies/stores';
-import { action, observable, makeObservable } from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 
 
 export default class UIStore extends Store {
@@ -16,4 +16,22 @@ export default class UIStore extends Store {
     setDataPanelOpen(isOpen = true) {
         this.dataPanelIsOpen = isOpen;
     }
+ 
+    @observable
+    selectionPanelIsOpen: boolean = true;
+
+    @action
+    setSelectionPanelOpen(isOpen = true) {
+        this.selectionPanelIsOpen = isOpen;
+    }
+
+    @computed
+    get layout(): string {
+        if (!this.dataPanelIsOpen) {
+            return 'A';
+        }
+
+        return '';
+    }
+
 }
