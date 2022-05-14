@@ -13,6 +13,9 @@ const formatBytes = (size:number) => {
     return `${Math.round(10 * (size / 1024)) / 10} kb`;
 };
 const formatNum = (val:number) => {
+    if (val > 1000) {
+        return Math.round(val).toLocaleString();
+    }
     return `${Math.round(10 * (val)) / 10}`;
 };
 
@@ -27,7 +30,7 @@ export const ListItem = observer(({ item }: ListItemProps) => {
         <div className={'smaller'}><div className={'label'}>Id</div><div className={'value'}><a href={href} target={'_blank'} >{item.id}</a></div></div>
         <div className={'left'}>
             <div><div className={'label'}>Size</div><div className={'value'}>{formatBytes(item.size)}</div></div>
-            <div><div className={'label'}>Bounds</div><div className={'value'}>{formatNum(item.boundingVolume)}</div></div>
+            <div><div className={'label'}>Bounds</div><div className={'value'}>{formatNum(item.boundingVolume * 100)}</div></div>
             <div><div className={'label'}>Density</div><div className={'value'}>{formatNum(item.density)}</div></div>
         </div>
         <div className={'right'}>

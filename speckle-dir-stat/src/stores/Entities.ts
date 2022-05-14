@@ -152,24 +152,24 @@ export default class Entities extends Store {
 
     @computed
     get activeXYPlot(): EntityDot[] {
-        const hierarchy: EntityDot[] = [];
+        const dots: EntityDot[] = [];
 
         this.list.forEach((item, i) => {
             if (!item.area || !item.size || !item.boundingVolume)
                 return;
 
-            hierarchy.push({
+            dots.push({
                 id: item.id,
-                x: item.size,
-                y: item.area,
-                value: item.size / item.boundingVolume,
+                x: item.boundingVolume,
+                y: item.size,
+                value: item.density,
                 selected: item.selected,
                 category: item.objectType,
-                color: this.getColor(item.size / item.boundingVolume),
+                color: this.getColor(item.density),
             })
         });
 
-        return hierarchy;
+        return dots;
     }
 
     @computed
