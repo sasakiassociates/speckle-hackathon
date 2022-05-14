@@ -35,6 +35,7 @@
     "camera-controls": "^1.33.1",
     "chroma-js": "^2.4.2",
     "core-js": "^3.21.1",
+    "d3": "^7.4.4",
     "hold-event": "^0.1.0",
     "lodash.debounce": "^4.0.8",
     "mobx": "^6.5.0",

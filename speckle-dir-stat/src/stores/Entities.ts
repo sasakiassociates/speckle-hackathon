@@ -1,6 +1,6 @@
-import { action, computed, makeObservable, observable } from "mobx";
-import { Store } from "@strategies/stores";
-import { TreeNode } from "./interfaces";
+import {action, computed, makeObservable, observable} from "mobx";
+import {Store} from "@strategies/stores";
+import {EntityDot, TreeNode} from "./interfaces";
 import chroma from "chroma-js"
 
 export class Entity {
@@ -143,11 +143,33 @@ export default class Entities extends Store {
             // '#eeac1a',
             // '#ffe800',
             // '#fffc9e'
-        ]).domain([1000,0]).mode('lch');
+        ]).domain([1000, 0]).mode('lch');
     }
 
     getColor(value: number) {
         return this.colorRamp(value).hex();
+    }
+
+    @computed
+    get activeXYPlot(): EntityDot[] {
+        const hierarchy: EntityDot[] = [];
+
+        this.list.forEach((item, i) => {
+            if (!item.area || !item.size || !item.boundingVolume)
+                return;
+
+            hierarchy.push({
+                id: item.id,
+                x: item.size,
+                y: item.area,
+                value: item.size / item.boundingVolume,
+                selected: item.selected,
+                category: item.objectType,
+                color: this.getColor(item.size / item.boundingVolume),
+            })
+        });
+
+        return hierarchy;
     }
 
     @computed

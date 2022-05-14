@@ -3,37 +3,20 @@ import {
     AnimatedGrid,
     AnimatedLineSeries,
     XYChart,
-    Tooltip,
+    Tooltip, AnnotationCircleSubject, GlyphSeries, AnimatedGlyphSeries, Axis,
 } from '@visx/xychart';
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useMemo} from "react";
 import {useStores} from "@strategies/stores";
 import {Stores} from "../../stores";
 import TreemapVis from "../TreeMap/TreemapVis";
 import {observer} from "mobx-react";
 import {background, SpaceTreemapProps} from "../TreeMap/SpaceTreemap";
-import {TreeNode} from "../../stores/interfaces";
-
-const data1 = [
-    {x: '2020-01-01', y: 50},
-    {x: '2020-01-02', y: 10},
-    {x: '2020-01-03', y: 20},
-];
-
-const data2 = [
-    {x: '2020-01-01', y: 30},
-    {x: '2020-01-02', y: 40},
-    {x: '2020-01-03', y: 80},
-];
-
-const accessors = {
-    // @ts-ignore
-    xAccessor: d => d.x,
-    // @ts-ignore
-    yAccessor: d => d.y,
-};
+import {EntityDot, TreeNode} from "../../stores/interfaces";
+import {scaleLinear} from "@visx/scale";
+import {AxisBottom, AxisLeft} from "@visx/axis";
 
 export type XYProps = {
-    treeTotals: TreeNode[];
+    items: EntityDot[];
     width: number;
     height: number;
     margin?: { top: number; right: number; bottom: number; left: number };
@@ -41,16 +24,67 @@ export type XYProps = {
 
 
 const XYPlot: FunctionComponent<XYProps> = (props) => {
-    console.log('SpaceTreemap RENDER');
+    let xMax = 0;
+    let xMin = 0;
+    let yMax = 0;
+    let yMin = 0;
 
-    const {entities} = useStores() as Stores;
+    props.items.forEach((item) => {
+        xMax = Math.max(xMax, item.x);
+        xMin = Math.min(xMin, item.x);
+        yMax = Math.max(yMax, item.y);
+        yMin = Math.min(yMin, item.y);
+    });
 
 
-    return (<XYChart height={props.height} xScale={{type: 'band'}} yScale={{type: 'linear'}}>
-            <AnimatedAxis orientation="bottom"/>
-            <AnimatedGrid columns={false} numTicks={4}/>
-            <AnimatedLineSeries dataKey="Line 1" data={data1} {...accessors} />
-            <AnimatedLineSeries dataKey="Line 2" data={data2} {...accessors} />
+    console.log("x");
+    console.log(xMin);
+    console.log(xMax);
+
+    console.log("y");
+    console.log(yMin);
+    console.log(yMax);
+
+
+    const accessors = {
+        xAccessor: (d: EntityDot) => (d.x - xMin) / (xMax - xMin),
+        yAccessor: (d: EntityDot) => (d.y - yMin) / (yMax - yMin),
+        size: (d: EntityDot) => 10
+    }
+
+    const xScale = useMemo(
+        () =>
+            scaleLinear<number>({
+                // range: [0, 300],
+                round: true,
+                domain: [xMin, xMax],
+            }),
+        [xMin, xMax],
+    );
+
+    const yScale = useMemo(
+        () =>
+            scaleLinear<number>({
+                // range: [0, 300],
+                round: true,
+                domain: [yMin, yMax],
+            }),
+        [yMin, yMax],
+    );
+
+    console.log('XY Plot RENDER');
+
+    return (<XYChart
+            height={props.height}
+            xScale={{type: 'linear', domain: [0, 1], zero: false}}
+            yScale={{type: 'linear', domain: [0, 1], zero: false}}>
+            <AxisLeft scale={yScale} orientation="left" label={"area"}/>
+            <AxisBottom scale={xScale} label={"area"}/>
+            {/*<Axis orientation="bottom" label={"size"}/>*/}
+            <AnimatedGrid columns={true} numTicks={10}/>
+            <AnimatedGlyphSeries dataKey="Model" data={props.items} {...accessors}/>
+            {/*<GlyphSeries dataKey="Line 1" data={data1} {...accessors} />*/}
+            {/*<AnimatedLineSeries dataKey="Line 2" data={data2} {...accessors} />*/}
             {/*<Tooltip*/}
             {/*    snapTooltipToDatumX*/}
             {/*    snapTooltipToDatumY*/}
