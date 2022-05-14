@@ -39,6 +39,7 @@ const tooltipStyles = {
 export type TreemapVisProps = {
     treeTotals: TreeNode[];
     background: string;
+    getStroke: (node: any) => StrokeSettings;
     width: number;
     strokeOpacity?: number;
     sliceDice?: boolean;
@@ -50,10 +51,50 @@ export type TreemapVisProps = {
 
 let tooltipTimeout: number;
 
+type StrokeSettings = { strokeColor: string, strokeWidth: number, strokeOpacity: number };
+type TreemapRectProps = {
+    nodeWidth: number;
+    nodeHeight: number;
+    node: any;
+    getStroke: (node: any) => StrokeSettings;
+    getColor: (node: any) => string;
+    onClick: () => void
+    onMouseMove: () => void
+    onMouseLeave: () => void
+};
+export const TreemapRect = (props: TreemapRectProps) => {
+    const {
+        nodeWidth,
+        nodeHeight,
+        getStroke,
+        getColor,
+        node,
+        onClick,
+        onMouseMove,
+        onMouseLeave
+    } = props;
+    const { strokeColor, strokeWidth, strokeOpacity } = getStroke(node);
+    return <rect
+        // rx={4}
+        // ry={4}
+        width={nodeWidth}
+        height={nodeHeight}
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        strokeOpacity={strokeOpacity}
+        fill={getColor(node)}
+        onClick={onClick}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+
+    />
+}
+
+
 // export default withTooltip<TreemapVisProps, TooltipData>({ width, height, treeTotals, margin = defaultMargin }: TreemapVisProps & WithTooltipProvidedProps<TooltipData>) {
 export default withTooltip<TreemapVisProps, TooltipData>(
     ({
-         getColor, background, sliceDice, strokeOpacity, onClick,
+         getColor, background, getStroke, sliceDice, strokeOpacity, onClick,
          width, height, treeTotals, margin = defaultMargin,
          tooltipOpen,
          tooltipLeft,
@@ -149,14 +190,10 @@ export default withTooltip<TreemapVisProps, TooltipData>(
                                                         </g>
                                                     )}
                                                     {(!node.children || node.children.length === 0) &&
-                                                        <rect
-                                                            rx={4}
-                                                            ry={4}
-                                                            width={nodeWidth}
-                                                            height={nodeHeight}
-                                                            stroke={background}
-                                                            strokeOpacity={strokeOpacity}
-                                                            fill={getColor(node)}
+                                                        <TreemapRect
+                                                            node={node}
+                                                            nodeWidth={nodeWidth} nodeHeight={nodeHeight}
+                                                            getStroke={getStroke} getColor={getColor}
                                                             onMouseLeave={() => {
                                                                 tooltipTimeout = window.setTimeout(() => {
                                                                     hideTooltip();
@@ -175,7 +212,6 @@ export default withTooltip<TreemapVisProps, TooltipData>(
                                                             onClick={() => {
                                                                 if (onClick) onClick(node);
                                                             }}
-
                                                         />
                                                     }
                                                 </Group>

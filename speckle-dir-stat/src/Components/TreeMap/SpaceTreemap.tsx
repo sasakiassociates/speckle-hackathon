@@ -11,17 +11,23 @@ const palette:{[key: string]: string} = {
     'Objects.Geometry.Polyline': '#7b41e7',
 };
 const getColor = (node: any) => {
-    // console.log(node);
-    const {selected, category, color} = node.data.data;
-    // if (!entity) return '#000000';
-    if (selected) {
-        return '#0000ff'
-    }
+    const {category, color} = node.data.data;
     return color || palette[category];
 };
 
 
-export const background = '#114b5f';
+const getStroke = (node: any) => {
+    // console.log(node);
+    const {selected} = node.data.data;
+    // if (!entity) return '#000000';
+    if (selected) {
+        return {strokeColor: '#0000ff', strokeWidth: 3, strokeOpacity: 1}
+    }
+    return {strokeColor: '#ffffff', strokeWidth: 1, strokeOpacity: 0.5}
+};
+
+
+export const background = '#ffffff';
 export type SpaceTreemapProps = {
     treeTotals: TreeNode[];
     width: number;
@@ -34,7 +40,7 @@ const SpaceTreemap: FunctionComponent<SpaceTreemapProps> = (props) => {
     console.log('SpaceTreemap RENDER', props.treeTotals.length);
     const { entities } = useStores() as Stores;
 
-    return <TreemapVis {...props} background={background} getColor={getColor} onClick={(node:any) => {
+    return <TreemapVis {...props} getStroke={getStroke} background={background} strokeOpacity={0.5} getColor={getColor} onClick={(node:any) => {
         const id = node.data.data.id;
         entities.toggleSelection(id);
     }}/>
