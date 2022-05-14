@@ -13,7 +13,7 @@ const formatBytes = (size:number) => {
     return `${Math.round(10 * (size / 1024)) / 10} kb`;
 };
 const formatNum = (val:number) => {
-    return `${Math.round(10 * (val / 1024)) / 10}`;
+    return `${Math.round(10 * (val)) / 10}`;
 };
 
 export const ListItem = observer(({ item }: ListItemProps) => {
