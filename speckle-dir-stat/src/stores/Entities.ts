@@ -183,7 +183,7 @@ export default class Entities extends Store {
         }
         hierarchy.push(rootNode);
 
-        this.list.forEach((item, i) => {
+        this.sizeDescending.forEach((item, i) => {
             hierarchy.push({
                 parent: rootNode.id,
                 id: item.id,
