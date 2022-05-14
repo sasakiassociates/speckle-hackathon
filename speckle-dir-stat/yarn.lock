@@ -31,7 +31,7 @@
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.17.10.tgz"
   integrity sha512-GZt/TCsG70Ms19gfZO1tM4CVnXsPgEPBCpJu+Qz3L0LUDsY5nZqFZglIoPC1kIYOtNBZlrnFT+klg12vFGZXrw==
 
-"@babel/core@^7.1.0", "@babel/core@^7.11.1", "@babel/core@^7.12.3", "@babel/core@^7.16.0", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+"@babel/core@^7.1.0", "@babel/core@^7.11.1", "@babel/core@^7.12.3", "@babel/core@^7.16.0", "@babel/core@^7.17.9", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.17.10"
   resolved "https://registry.npmjs.org/@babel/core/-/core-7.17.10.tgz"
   integrity sha512-liKoppandF3ZcBnIYFjfSDHZLKdLHGJRkoWtG8zQyGJBQfIYobpnVGI5+pLBNtS6psFLDzyq8+h5HiVljW9PNA==
@@ -1624,12 +1624,28 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@speckle/objectloader@^2.5.5":
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/@speckle/objectloader/-/objectloader-2.5.5.tgz#79bfbe6963cd29fca5ceaeb262a20502e334171b"
+  integrity sha512-6BM/ptI6y/kfY2wOBy1U0zz5krvcN6h0ccYQmebGk6RKUHuBGnXehptML12MrV4QHBbDTZMM5/cdsg8n4ag6iA==
+  dependencies:
+    "@babel/core" "^7.17.9"
+    core-js "^3.21.1"
+    regenerator-runtime "^0.13.7"
+
 "@strategies/react-form@^1.4.3":
   version "1.4.3"
   resolved "https://registry.npmjs.org/@strategies/react-form/-/react-form-1.4.3.tgz"
   integrity sha512-jSfqhiTG5UPn3E0Yzdg08aD1eJpLkl9pMzyXro2m1wEKaFF0QIhnnede4Kr2MMn5suygZFXGxxNI7z9dWrssLw==
   dependencies:
     react-number-format "^4.9.1"
+
+"@strategies/speckle@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@strategies/speckle/-/speckle-1.0.0.tgz#b8b8170859a7b18d6807127049d6c7af16ac8b19"
+  integrity sha512-w8JSJB9WVIyVAUFDthW+LtX28vEJ+SQ85nCfM1YxOnYf8Nruv0NGTlaLjT2InTtJjHWDjujd4r5N0Hy8McqfMg==
+  dependencies:
+    "@speckle/objectloader" "^2.5.5"
 
 "@strategies/stores@^1.2.2":
   version "1.2.2"
