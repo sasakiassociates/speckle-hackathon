@@ -26,9 +26,11 @@ export default class AppStore extends Store {
         this.url = url;
     }
 
-    streamId: string = '89ef27f57b';
+    // streamId: string = '89ef27f57b';
+    // objectId: string = '572a2fa02ca00e0231b36274db10b5c9'
 
-    objectId: string = '572a2fa02ca00e0231b36274db10b5c9'
+    streamId: string = '00613d79b2';
+    objectId: string = '9683eb354c0fc9a725756528f4007645'
 
     // @action
     // setStreamId(streamId: string) {

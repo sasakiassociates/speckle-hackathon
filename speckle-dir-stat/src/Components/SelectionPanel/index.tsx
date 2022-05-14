@@ -4,7 +4,7 @@ import { useStores } from '@strategies/stores';
 import { Panel, Title, Toggle, Body } from '@strategies/ui';
 
 import { Stores } from '../../stores';
-import { List } from "../SpeckleViewer/List";
+import { List } from "../List/List";
 
 
 export default observer(function SelectionPanel() {
