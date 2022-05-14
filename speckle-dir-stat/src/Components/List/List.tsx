@@ -9,10 +9,10 @@ type ListItemProps = {
     item: Entity;
 };
 
-const formatBytes = (size:number) => {
+export const formatBytes = (size:number) => {
     return `${Math.round(10 * (size / 1024)) / 10} kb`;
 };
-const formatNum = (val:number) => {
+export const formatNum = (val:number) => {
     if (val > 1000) {
         return Math.round(val).toLocaleString();
     }

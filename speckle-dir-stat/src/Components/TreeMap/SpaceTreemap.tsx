@@ -45,6 +45,7 @@ const SpaceTreemap: FunctionComponent<SpaceTreemapProps> = (props) => {
         const id = node.data.data.id;
         entities.toggleSelection(id);
     }}/>
+        <div className={'title'}>Elements scaled by Byte Size, colored by 'Density'</div>
     </div>
 }
 export default observer(SpaceTreemap);

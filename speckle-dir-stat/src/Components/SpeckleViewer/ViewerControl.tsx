@@ -90,7 +90,7 @@ export const ViewerControl = observer(({ }: ViewerProps) => {
             console.log('useEffect RUNNING');
             viewer.current = new Viewer({
                 container: divRef,
-                showStats: true
+                showStats: false
             });
 
             loadEntities(viewer.current, entities);

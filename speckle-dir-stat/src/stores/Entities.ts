@@ -2,6 +2,7 @@ import {action, computed, makeObservable, observable} from "mobx";
 import {Store} from "@strategies/stores";
 import {EntityDot, TreeNode} from "./interfaces";
 import chroma from "chroma-js"
+import { formatBytes, formatNum } from "../Components/List/List";
 
 export class Entity {
     constructor(id: string) {
@@ -190,7 +191,7 @@ export default class Entities extends Store {
                 selected: item.selected,
                 category: item.objectType,
                 color: this.getColor(item.density),
-                label: [`${item.size}`, `${item.density}`],
+                label: [`Size: ${formatBytes(item.size)}`, `Density: ${formatNum(item.density)}`],
             })
         });
 

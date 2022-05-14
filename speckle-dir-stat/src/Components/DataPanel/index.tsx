@@ -16,7 +16,7 @@ export default observer(function DataPanel() {
             active={ui.dataPanelIsOpen}
             onToggle={() => ui.setDataPanelOpen(!ui.dataPanelIsOpen)}
         >
-            <Title>Stream as Data</Title>
+            <Title>Model Data</Title>
             <Toggle><FiGrid/></Toggle>
             <Body>
                 <ManualScatter width={800} height={400}/>

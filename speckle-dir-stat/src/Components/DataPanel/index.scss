@@ -17,4 +17,15 @@
 .SpaceTreemap {
     display: inline-block;
     width: 48%;
+    position: relative;
+    svg {
+        margin-top: 12px;
+    }
+    .title {
+        text-align: center;
+        position: absolute;
+        top:3px;
+        right:0;
+        left:0;
+    }
 }

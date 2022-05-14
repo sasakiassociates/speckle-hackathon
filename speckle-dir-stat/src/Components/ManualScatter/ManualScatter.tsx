@@ -4,6 +4,7 @@ import { Stores } from "../../stores";
 import { scaleLinear, scaleLog } from "@visx/scale";
 import { useMemo } from "react";
 import { EntityDot } from "../../stores/interfaces";
+import { AxisBottom, AxisLeft } from "@visx/axis";
 
 type PlotPointProps = {
     dot: EntityDot;
@@ -13,14 +14,18 @@ type PlotPointProps = {
 export const PlotPoint = observer(({ dot, xScale, yScale }: PlotPointProps) => {
     const { entities } = useStores() as Stores;
 
-    return <circle className={'PlotPoint'} fill={dot.color} strokeWidth={dot.selected ? 4 : 1} stroke={dot.selected ? '#0000ff' : '#999999'} cx={xScale(dot.x)} cy={yScale(dot.y)} r={5} onClick={() => {
-        entities.toggleSelection(dot.id);
-    }}/>
+    return <circle className={'PlotPoint'} fill={dot.color} strokeWidth={dot.selected ? 4 : 1}
+                   stroke={dot.selected ? '#0000ff' : '#999999'} cx={xScale(dot.x)} cy={yScale(dot.y)} r={5}
+                   onClick={() => {
+                       entities.toggleSelection(dot.id);
+                   }}/>
 });
 type ManualScatterProps = {
     width: number,
     height: number
 };
+const whiteTicks = '#cccccc';
+
 export const ManualScatter = observer(({ width, height }: ManualScatterProps) => {
     const { entities } = useStores() as Stores;
 
@@ -36,20 +41,22 @@ export const ManualScatter = observer(({ width, height }: ManualScatterProps) =>
         yMin = Math.min(yMin, item.y);
     });
 
+    const paddingLeft = 50;
     const padding = 10;
     const xScale = useMemo(
         () =>
             scaleLog<number>({
-                range: [padding, width-padding],
+                range: [paddingLeft, width - padding - paddingLeft],
                 round: true,
                 domain: [xMin, xMax],
             }),
         [xMin, xMax],
     );
+    let bottom = height - 20 - padding * 2;
     const yScale = useMemo(
         () =>
             scaleLog<number>({
-                range: [height - 20 - padding, padding],
+                range: [bottom, padding],
                 round: true,
                 domain: [yMin, yMax],
             }),
@@ -57,8 +64,32 @@ export const ManualScatter = observer(({ width, height }: ManualScatterProps) =>
     );
 
     return <div className={'ManualScatter'}>
-        <svg width={width} height={height}>
+        <svg width={width} height={height+10}>
             {entities.activeXYPlot.map(e => <PlotPoint key={e.id} dot={e} xScale={xScale} yScale={yScale}/>)}
+            <text textAnchor="middle" fontSize={'12px'} x={width/2} y={bottom + 40}>Bounding Box Volume (log scale)</text>
+            <text textAnchor="middle" fontSize={'12px'} transform={`translate(${paddingLeft-30}, ${height/2}) rotate(-90) `}>Byte Size (log scale)</text>
+            <AxisBottom
+                top={bottom}
+                scale={xScale}
+                stroke={whiteTicks}
+                tickStroke={whiteTicks}
+                tickLabelProps={() => ({
+                    fill: whiteTicks,
+                    fontSize: 11,
+                    textAnchor: 'middle',
+                })}
+            />
+            <AxisLeft
+                left={paddingLeft}
+                scale={yScale}
+                stroke={whiteTicks}
+                tickStroke={whiteTicks}
+                tickLabelProps={() => ({
+                    fill: whiteTicks,
+                    fontSize: 11,
+                    textAnchor: 'middle',
+                })}
+            />
         </svg>
     </div>
 });
