@@ -56,6 +56,11 @@ export class Entity {
     setSelected(b: boolean) {
         this.selected = b;
     }
+
+    @computed
+    get density() {
+        return this.size / this.boundingVolume;
+    }
 }
 
 export default class Entities extends Store {
@@ -116,6 +121,18 @@ export default class Entities extends Store {
         return arr;
     }
 
+    @computed
+    get selectedDescending() {
+        const arr = [...this.selected];
+        arr.sort((a, b) => b.size - a.size);
+        return arr;
+    }
+
+    @computed
+    get selected() {
+        return this.list.filter(e => e.selected);
+    }
+
 
     @computed
     get colorRamp() {
@@ -150,8 +167,8 @@ export default class Entities extends Store {
                 area: item.size,
                 selected: item.selected,
                 category: item.objectType,
-                color: this.getColor(item.size / item.boundingVolume),
-                label: [`${item.size}`, `${item.size / item.boundingVolume}`],
+                color: this.getColor(item.density),
+                label: [`${item.size}`, `${item.density}`],
             })
         });
 

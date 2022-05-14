@@ -1,0 +1,58 @@
+.List {
+  z-index: 5;
+  padding: 0.5em;
+  //border: 1px solid red;
+  .ListItem {
+    position: relative;
+    //cursor: pointer;
+    border: 1px solid #cccccc;
+    border-radius: 0.75em;
+
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+
+    .left {
+      display: inline-block;
+      width: 45%;
+
+    }
+    .right {
+      display: inline-block;
+      width: 45%;
+    }
+
+    &.selected {
+      border: 1px solid #999999;
+      font-weight: bold;
+    }
+
+    .tag {
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em;
+      border: 1px solid #aaaaaa;
+      background-color: #ededed;
+      padding: 0.5em;
+      border-radius: 0.5em;
+
+    }
+
+    .smaller {
+      .value {
+        font-size: .8em;
+        color: #999999;
+
+      }
+    }
+
+    .label {
+      font-weight: normal;
+      display: inline-block;
+      width: 6em;
+    }
+
+    .value {
+      display: inline-block;
+    }
+  }
+}
