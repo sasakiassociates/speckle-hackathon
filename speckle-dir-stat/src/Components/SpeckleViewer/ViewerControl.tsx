@@ -9,7 +9,7 @@ import { Stores } from "../../stores";
 //making a react component with mobx that can interface with e.g. selections
 
 const loadEntities = async (viewer: Viewer, entities: Entities) => {
-    const { app } = stores as Stores;
+    const { app, ui } = stores as Stores;
 
     await viewer.loadObject(`https://speckle.xyz/streams/${app.streamId}/objects/${app.objectId}`)
     // for await (const entity of entities.list) {
@@ -47,6 +47,41 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
             selfInflicted = false;
         }
     )
+    //
+    reaction(
+        () => ui.filterMode,
+        (filterMode) => {
+            if (dontReact) return;
+            selfInflicted = true;
+            if (filterMode) {
+                viewer.applyFilter({
+                    filterBy: {
+                        'id': entities.selectedIds
+                    },
+                    colorBy: {
+                        'type': 'gradient',
+                        'property': '_size',
+                        'minValue': 0,
+                        'maxValue': 1000,
+                        'gradientColors': ['#1f0454', '#c8255c'],
+                        default: '#000000'
+                    },
+                    // colorBy: {
+                    //     type: 'category', property: 'speckle_type', values: {
+                    //         'Objects.Geometry.Brep': '#a14c06',
+                    //         'Objects.Geometry.Mesh': '#ee934c'
+                    //     }
+                    // },
+                    ghostOthers: true
+                })
+            } else {
+                viewer.applyFilter({
+                    ghostOthers: false
+                })
+            }
+            selfInflicted = false;
+        }
+    )
 
     viewer.on('select', (e: any) => {
         if (selfInflicted) return;
@@ -78,7 +113,7 @@ type ViewerProps = {
 export const ViewerControl = observer(({ }: ViewerProps) => {
 
     // @ts-ignore
-    const { entities } = useStores() as Stores;
+    const { entities, ui } = useStores() as Stores;
 
     const viewer = useRef<Viewer | null>(null);
     let divRef: HTMLDivElement | null;

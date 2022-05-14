@@ -8,7 +8,7 @@ export default class UIStore extends Store {
         super();
         makeObservable(this);
     }
-    
+
     @observable
     dataPanelIsOpen: boolean = true;
 
@@ -41,5 +41,14 @@ export default class UIStore extends Store {
 
         return '';
     }
+
+    @observable
+    filterMode: boolean = false;
+
+    @action
+    setFilterMode(filterMode = true) {
+        this.filterMode = filterMode;
+    }
+
 
 }

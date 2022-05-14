@@ -14,7 +14,7 @@ export default observer(function MenuBar() {
     return (
         <TopRibbon className="MenuBar">
             <Logo><img src={SasakiLogo} alt="Sasaki Logo" /></Logo>
-            <Title>Speckle Hackathon</Title>
+            <Title>Hackathon: SpeckleDirStat</Title>
             <Drawer>
                 <IconButton onClick={() => ui.setLoadModalOpen()}>
                     <FiSettings />
