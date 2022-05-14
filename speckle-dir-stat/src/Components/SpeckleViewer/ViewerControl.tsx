@@ -85,16 +85,16 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
 
     viewer.on('select', (e: any) => {
         if (selfInflicted) return;
-        console.log('select', e);
+        // console.log('select', e);
 
         dontReact = true;
         if (e.userData.length > 0) {
             const ids = e.userData.map((v: { id: any; }) => v.id);
-            console.log('selected ID', ids);
+            // console.log('selected ID', ids);
 
             for (const entity of entities.list) {
                 entity.setSelected(ids.indexOf(entity.id) >= 0);
-                console.log('selected', entity.id, entity.selected);
+                // console.log('selected', entity.id, entity.selected);
             }
         } else {
             for (const entity of entities.list) {
