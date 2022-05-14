@@ -9,13 +9,13 @@ import { Stores } from '../../stores';
 import SasakiLogo from '../../assets/sasaki.svg';
 
 
+
+
 export default observer(function LoadModal() {
     const { app, ui } = useStores() as Stores;
 
     const start = useCallback(() => {
         app.makeUnclean();
-        // app.loadDataFromStream();
-
         ui.setLoadModalOpen(false);
     }, []);
 
