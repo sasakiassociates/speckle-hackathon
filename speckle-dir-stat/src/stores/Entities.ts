@@ -156,7 +156,7 @@ export default class Entities extends Store {
         const dots: EntityDot[] = [];
 
         this.list.forEach((item, i) => {
-            if (!item.area || !item.size || !item.boundingVolume)
+            if (!item.size || !item.boundingVolume)
                 return;
 
             dots.push({

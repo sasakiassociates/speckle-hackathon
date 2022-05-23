@@ -16,6 +16,7 @@ export const PlotPoint = observer(({ dot, xScale, yScale }: PlotPointProps) => {
 
     return <circle className={'PlotPoint'} fill={dot.color} strokeWidth={dot.selected ? 4 : 1}
                    stroke={dot.selected ? '#0000ff' : '#999999'} cx={xScale(dot.x)} cy={yScale(dot.y)} r={5}
+                   opacity={0.5}
                    onClick={() => {
                        entities.toggleSelection(dot.id);
                    }}/>
