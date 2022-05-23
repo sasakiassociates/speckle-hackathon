@@ -49,7 +49,7 @@ export default class AppStore extends Store {
     // }
 
 
-    // async loadDataFromStream() {
-    //     // console.log(await speckleApi());
-    // }
+    async loadDataFromStream() {
+        await speckleApi();
+    }
 }

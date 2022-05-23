@@ -86,7 +86,6 @@ export const TreemapRect = (props: TreemapRectProps) => {
         onClick={onClick}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
-
     />
 }
 
