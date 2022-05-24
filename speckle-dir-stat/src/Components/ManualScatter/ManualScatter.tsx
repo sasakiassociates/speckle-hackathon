@@ -2,9 +2,10 @@ import { observer } from "mobx-react";
 import { useStores } from "@strategies/stores";
 import { Stores } from "../../stores";
 import { scaleLinear, scaleLog } from "@visx/scale";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { EntityDot } from "../../stores/interfaces";
 import { AxisBottom, AxisLeft } from "@visx/axis";
+import { XYBrush } from "./XYBrush";
 
 type PlotPointProps = {
     dot: EntityDot;
@@ -28,8 +29,9 @@ type ManualScatterProps = {
 const whiteTicks = '#cccccc';
 
 export const ManualScatter = observer(({ width, height }: ManualScatterProps) => {
-    const { entities } = useStores() as Stores;
+    const { entities, ui } = useStores() as Stores;
 
+    const svgRef = useRef<SVGSVGElement>(null);
     let xMax = 0;
     let xMin = Number.MAX_VALUE;
     let yMax = 0;
@@ -44,31 +46,49 @@ export const ManualScatter = observer(({ width, height }: ManualScatterProps) =>
 
     const paddingLeft = 50;
     const padding = 10;
+    let bottom = height - 20 - padding * 2;
+    const xRange = [paddingLeft, width - padding - paddingLeft];
+    const yRange = [bottom, padding];
     const xScale = useMemo(
         () =>
             scaleLog<number>({
-                range: [paddingLeft, width - padding - paddingLeft],
+                range: xRange,
                 round: true,
-                domain: [xMin, xMax],
+                domain: [xMin, xMax * 1.05],
             }),
         [xMin, xMax],
     );
-    let bottom = height - 20 - padding * 2;
     const yScale = useMemo(
         () =>
             scaleLog<number>({
-                range: [bottom, padding],
+                range: yRange,
                 round: true,
-                domain: [yMin, yMax],
+                domain: [yMin, yMax * 1.1],
             }),
         [yMin, yMax],
     );
 
     return <div className={'ManualScatter'}>
-        <svg width={width} height={height+10}>
-            {entities.activeXYPlot.map(e => <PlotPoint key={e.id} dot={e} xScale={xScale} yScale={yScale}/>)}
-            <text textAnchor="middle" fontSize={'12px'} x={width/2} y={bottom + 40}>Bounding Box Volume (log scale)</text>
-            <text textAnchor="middle" fontSize={'12px'} transform={`translate(${paddingLeft-30}, ${height/2}) rotate(-90) `}>Byte Size (log scale)</text>
+        <svg ref={svgRef} width={width} height={height + 10}>
+
+            {svgRef.current &&
+                <XYBrush svgRef={svgRef.current} rectangle={ui.scatterSelectionArea} xRange={xRange} yRange={yRange}
+                         xScale={xScale} yScale={yScale}
+                         onBrush={() => {
+                             entities.selectByRule((e) => ui.scatterSelectionArea.contains(e.boundingVolume, e.size));
+                             ui.scatterSelectionArea.reset();
+                         }}
+                />
+            }
+            <g transform={`translate(${xRange[0]},${yRange[1]})`}>
+                {/*<rect fill={'transparent'} stroke={'#6092cb'} width={xRange[1]} height={yRange[0] - yRange[1]}/>*/}
+                {entities.activeXYPlot.map(e => <PlotPoint key={e.id} dot={e} xScale={xScale} yScale={yScale}/>)}
+            </g>
+            <text textAnchor="middle" fontSize={'12px'} x={width / 2} y={bottom + 40}>Bounding Box Volume (log scale)
+            </text>
+            <text textAnchor="middle" fontSize={'12px'}
+                  transform={`translate(${paddingLeft - 30}, ${height / 2}) rotate(-90) `}>Byte Size (log scale)
+            </text>
             <AxisBottom
                 top={bottom}
                 scale={xScale}

@@ -3,6 +3,7 @@ import {Store} from "@strategies/stores";
 import {EntityDot, TreeNode} from "./interfaces";
 import chroma from "chroma-js"
 import { formatBytes, formatNum } from "../Components/List/List";
+import { Rectangle } from "./UIStore";
 
 export class Entity {
     constructor(id: string) {
@@ -96,6 +97,12 @@ export default class Entities extends Store {
         }
     }
 
+    @action
+    selectByRule(predicate: (e:Entity)=>boolean) {
+        this.list.forEach((e, i) => {
+            e.setSelected(predicate(e));
+        });
+    }
     //endregion
 
     //region getter/setters
@@ -209,4 +216,5 @@ export default class Entities extends Store {
     //region private methods
 
     //endregion
+
 }
