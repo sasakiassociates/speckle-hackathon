@@ -11,7 +11,7 @@ import { Stores } from "../../stores";
 const loadEntities = async (viewer: Viewer, entities: Entities) => {
     const { app, ui } = stores as Stores;
 
-    await viewer.loadObject(`https://speckle.xyz/streams/${app.streamId}/objects/${app.objectId}`)
+    await viewer.loadObject(await app.getObjectUrl());
     // for await (const entity of entities.list) {
     //     ;//${entity.id}`);
     //
@@ -124,13 +124,13 @@ type ViewerProps = {
 export const ViewerControl = observer(({ }: ViewerProps) => {
 
     // @ts-ignore
-    const { entities, ui } = useStores() as Stores;
+    const { app, entities, ui } = useStores() as Stores;
 
     const viewer = useRef<Viewer | null>(null);
     let divRef: HTMLDivElement | null;
     console.log('ViewerControl render');
     useEffect(() => {
-        if (divRef) {
+        if (divRef && !app.clean) {
             if (runOnce) return;//SHOULD NOT BE NEEDED when passing empty array as deps, but something is up...
             runOnce = true;
             console.log('useEffect RUNNING');
@@ -138,12 +138,11 @@ export const ViewerControl = observer(({ }: ViewerProps) => {
                 container: divRef,
                 showStats: false
             });
-
+            
             loadEntities(viewer.current, entities);
-
         }
 
-    }, [entities]);
+    }, [entities, app.clean]);
 
     return <div ref={node => {
         divRef = node;

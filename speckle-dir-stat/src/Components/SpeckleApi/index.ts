@@ -1,11 +1,8 @@
-import {Speckle, SpeckleObject} from '@strategies/speckle';
+import { Speckle } from '@strategies/speckle';
 
-export const speckleApi = async () => {
-    const api = new Speckle({token: "9f2007a7243b375259c50707617034f9f00fd6b904"});
+export const buildUrl = async (streamId: string, commitId: string, server: string, token?: string): Promise<string> => {
+    const api = new Speckle({ server, token });
+    const data = await api.Stream(streamId).Commit(commitId).get;
 
-    const data = await api.Stream("070d4ec5a3").Commit("8c19e43e82").data;
-
-    console.log("data");
-    console.log(data);
-
+    return `https://speckle.xyz/streams/${streamId}/objects/${data.referencedObject}`;
 }

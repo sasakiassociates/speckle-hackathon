@@ -34,4 +34,12 @@
         border-bottom: 6px solid color.$blue--light;
     }
 
+    .ReactForm__Input {
+        margin-bottom: 2rem;
+
+        input {
+            flex: 1;
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 import {Store} from '@strategies/stores';
-import {action, observable, makeObservable, computed} from 'mobx';
-import {speckleApi} from '../Components/SpeckleApi';
+import {action, observable, makeObservable} from 'mobx';
+import {buildUrl} from '../Components/SpeckleApi';
 
 
 export default class AppStore extends Store {
@@ -26,6 +26,14 @@ export default class AppStore extends Store {
         this.url = url;
     }
 
+    @observable
+    token?: string;
+
+    @action
+    setToken(token: string) {
+        this.token = token;
+    }
+
     streamId: string = '070d4ec5a3';
     objectId: string = '448851b898cc662235d93c7358197e8f';
 
@@ -49,7 +57,17 @@ export default class AppStore extends Store {
     // }
 
 
-    async loadDataFromStream() {
-        await speckleApi();
+    async getObjectUrl(): Promise<string> {
+        if (this.url !== '') {
+            const url = new URL(this.url);
+
+            const splitUrl = url.pathname.split('/');
+            const streamId = splitUrl[2];
+            const commitId = splitUrl[4];
+
+            return await buildUrl(streamId, commitId, `${url.protocol}//${url.hostname}`, this.token);
+        }
+
+        return '';
     }
 }

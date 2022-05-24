@@ -43,6 +43,13 @@ export default observer(function LoadModal() {
                     value={app.url}
                     onChange={(url: string|number) => app.setUrl(String(url))}
                 />
+
+                <Input
+                    name="Token (optional)"
+                    left="App Token"
+                    value={app.token || ''}
+                    onChange={(token: string|number) => app.setToken(String(token))}
+                />
             </Body>
 
             <Buttons>
