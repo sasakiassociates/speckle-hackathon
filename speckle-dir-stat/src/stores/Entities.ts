@@ -1,9 +1,10 @@
 import {action, computed, makeObservable, observable} from "mobx";
-import {Store} from "@strategies/stores";
+import { Store, stores } from "@strategies/stores";
 import {EntityDot, TreeNode} from "./interfaces";
 import chroma from "chroma-js"
 import { formatBytes, formatNum } from "../Components/List/List";
 import { Rectangle } from "./UIStore";
+import { Stores } from "../stores";
 
 export class Entity {
     constructor(id: string) {
@@ -144,6 +145,7 @@ export default class Entities extends Store {
 
     @computed
     get colorRamp() {
+        const {ui} = stores as Stores;
         return chroma.scale([
             '#1f0454',
             // '#6f2b97',
@@ -151,7 +153,7 @@ export default class Entities extends Store {
             // '#eeac1a',
             // '#ffe800',
             // '#fffc9e'
-        ]).domain([1000, 0]).mode('lch');
+        ]).domain([ui.densityRampMax, 0]).mode('lch');
     }
 
     getColor(value: number) {

@@ -22,7 +22,7 @@ export const formatNum = (val: number) => {
 
 export const ListItem = observer(({ item }: ListItemProps) => {
     const [a, b, objectTypeDisplay] = item.objectType.split('.');
-    const { app } = useStores() as Stores;
+    const { app, ui } = useStores() as Stores;
 
     const href = `https://speckle.xyz/streams/${app.streamId}/objects/${item.id}`;
     return <div className={'ListItem' + (item.selected ? ' selected' : '')} onClick={() => {
@@ -42,7 +42,10 @@ export const ListItem = observer(({ item }: ListItemProps) => {
                 <div className={'value'}>{formatNum(item.boundingVolume * 100)}</div>
             </div>
             <div>
-                <div className={'label'}>Density</div>
+                <div className={'label'} onClick={() => {
+                    ui.setDensityRampMax(item.density);
+                }}>Density
+                </div>
                 <div className={'value'}>{formatNum(item.density)}</div>
             </div>
         </div>

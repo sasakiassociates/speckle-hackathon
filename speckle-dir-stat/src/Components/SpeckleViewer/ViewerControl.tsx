@@ -21,6 +21,8 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
 
     for (const o of viewer.allObjects.filter(o => !!o.userData?.id)) {
         // const entity = entities.list.find(e => e.id === o.userData.id);
+        o.userData._density = o.userData._size / o.userData.bbox?.volume;
+
         const entity = new Entity(o.userData.id);
         entity.setSize(o.userData._size);
         entity.setArea(o.userData.area);
@@ -49,8 +51,8 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
     )
     //
     reaction(
-        () => ui.filterMode,
-        (filterMode) => {
+        () => [ui.filterMode, ui.densityRampMax],
+        ([filterMode, densityRampMax]) => {
             if (dontReact) return;
             selfInflicted = true;
             if (filterMode) {
@@ -60,10 +62,10 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
                     },
                     colorBy: {
                         'type': 'gradient',
-                        'property': '_size',
+                        'property': '_density',
                         'minValue': 0,
-                        'maxValue': 1000,
-                        'gradientColors': ['#1f0454', '#c8255c'],
+                        'maxValue': densityRampMax,
+                        'gradientColors': ['#c8255c', '#1f0454'],
                         default: '#000000'
                     },
                     // colorBy: {

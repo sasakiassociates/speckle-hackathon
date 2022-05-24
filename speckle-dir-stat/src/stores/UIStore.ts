@@ -92,5 +92,13 @@ export default class UIStore extends Store {
         this.filterMode = filterMode;
     }
 
+    @observable
+    densityRampMax: number = 10000;
+
+    @action
+    setDensityRampMax(value: number) {
+        this.densityRampMax = value;
+    }
+
 
 }
