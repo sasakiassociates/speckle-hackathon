@@ -100,5 +100,13 @@ export default class UIStore extends Store {
         this.densityRampMax = value;
     }
 
+    @observable
+    zoomToId: string = '';
+
+    @action
+    public setZoomToId(value: string) {
+        this.zoomToId = value;
+    }
+
 
 }

@@ -49,6 +49,15 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
             selfInflicted = false;
         }
     )
+    reaction(
+        () => ui.zoomToId,
+        zoomToId => {
+            if (dontReact) return;
+            if (!zoomToId) return;
+            viewer.interactions.zoomToMatchingObject(v => zoomToId === v.userData.id);
+            ui.setZoomToId('');//clear for the next click (so we can click the same object again if needed)
+        }
+    )
     //
     reaction(
         () => [ui.filterMode, ui.densityRampMax],

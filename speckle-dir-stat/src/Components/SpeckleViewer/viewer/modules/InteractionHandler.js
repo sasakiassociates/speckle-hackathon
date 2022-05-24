@@ -245,6 +245,13 @@ export default class InteractionHandler {
         this.viewer.emit('select', {userData: [], location: null})
     }
 
+    zoomToMatchingObject(predicate) {
+        const objects = this.viewer.sceneManager.filteredObjects.filter(predicate);
+        if (objects.length > 0) {
+            this.zoomToObject(objects[0]);
+        }
+    }
+
     selectObjects(predicate) {
         const objects = this.viewer.sceneManager.filteredObjects.filter(predicate).map(o => ({object: o}));
         // console.log('selectObjects', objects.length);

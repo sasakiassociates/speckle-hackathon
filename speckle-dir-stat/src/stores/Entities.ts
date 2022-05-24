@@ -107,13 +107,6 @@ export default class Entities extends Store {
     //endregion
 
     //region getter/setters
-    @observable
-    age: number = 0;
-
-    @action
-    public setAge(value: number) {
-        this.age = value;
-    }
 
     //endregion
 

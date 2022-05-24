@@ -6,6 +6,7 @@ type Predicate = (value: any) => boolean;
 
 type Interactions = {
     deselectObjects();
+    zoomToMatchingObject(predicate: Predicate);
     selectObjects(predicate: Predicate);
 }
 

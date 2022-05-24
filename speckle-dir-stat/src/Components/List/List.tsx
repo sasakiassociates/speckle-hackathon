@@ -59,7 +59,9 @@ export const ListItem = observer(({ item }: ListItemProps) => {
                 <div className={'value'}>{formatNum(item.volume)}</div>
             </div>
         </div>
-        <div className={'tag'}>{objectTypeDisplay}</div>
+        <div className={'tag'} onClick={() => {
+            ui.setZoomToId(item.id);
+        }}>{objectTypeDisplay}</div>
 
     </div>
 });
