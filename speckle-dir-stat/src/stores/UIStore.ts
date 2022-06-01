@@ -1,5 +1,5 @@
 import { Store } from '@strategies/stores';
-import { action, computed, observable, makeObservable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 
 export class Rectangle {
@@ -107,6 +107,5 @@ export default class UIStore extends Store {
     public setZoomToId(value: string) {
         this.zoomToId = value;
     }
-
 
 }

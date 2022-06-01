@@ -9,15 +9,12 @@ import { Stores } from '../../stores';
 import SasakiLogo from '../../assets/sasaki.svg';
 
 
-
-
 export default observer(function LoadModal() {
     const { app, ui } = useStores() as Stores;
 
     const start = useCallback(() => {
         app.makeUnclean();
         ui.setLoadModalOpen(false);
-        // app.loadDataFromStream();
     }, []);
 
     return (
@@ -34,7 +31,7 @@ export default observer(function LoadModal() {
                 <p>
                     This Speckle product provides statistics and analysis while
                     allowing you to view your geometry model to perform cleanup
-                    and be able to seperate geometries into various streams.
+                    and be able to separate geometries into various streams.
                 </p>
 
                 <Input
