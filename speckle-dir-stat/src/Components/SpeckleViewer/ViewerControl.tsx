@@ -11,6 +11,7 @@ import { Stores } from "../../stores";
 const loadEntities = async (viewer: Viewer, entities: Entities) => {
     const { app, ui } = stores as Stores;
 
+
     await viewer.loadObject(await app.getObjectUrl());
     // for await (const entity of entities.list) {
     //     ;//${entity.id}`);
@@ -24,11 +25,14 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
         o.userData._density = o.userData._size / o.userData.bbox?.volume;
 
         const entity = new Entity(o.userData.id);
+
         entity.setSize(o.userData._size);
         entity.setArea(o.userData.area);
         entity.setVolume(o.userData.volume);
         entity.setBoundingVolume(o.userData.bbox?.volume);
         entity.setObjectType(o.userData.speckle_type);
+        entity.setObject(o);
+
         entities.addEntity(entity);
     }
 
@@ -115,6 +119,7 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
         dontReact = false;
     });
 }
+
 
 let runOnce = false;
 

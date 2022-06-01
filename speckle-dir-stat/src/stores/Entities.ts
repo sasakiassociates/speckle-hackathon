@@ -1,15 +1,13 @@
-import {action, computed, makeObservable, observable} from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Store, stores } from "@strategies/stores";
-import {EntityDot, TreeNode} from "./interfaces";
+import { EntityDot, TreeNode } from "./interfaces";
 import chroma from "chroma-js"
 import { formatBytes, formatNum } from "../Components/List/List";
-import { Rectangle } from "./UIStore";
 import { Stores } from "../stores";
 
 export class Entity {
     constructor(id: string) {
         makeObservable(this);
-
         this.id = id;
     }
 
@@ -18,14 +16,24 @@ export class Entity {
 
     @observable
     public size: number = 0;
+
     @observable
     public area: number = 0;
+
     @observable
     public volume: number = 0;
+
     @observable
     public boundingVolume: number = 0;
+
     @observable
     public objectType: string = '';
+
+    @observable
+    public bindObject: object = {};
+
+    @observable
+    public selected: boolean = false;
 
     @action
     setSize(size: number) {
@@ -52,8 +60,10 @@ export class Entity {
         this.objectType = objectType;
     }
 
-    @observable
-    public selected: boolean = false;
+    @action
+    setObject(obj: object) {
+        this.bindObject = obj;
+    }
 
     @action
     setSelected(b: boolean) {
@@ -99,16 +109,11 @@ export default class Entities extends Store {
     }
 
     @action
-    selectByRule(predicate: (e:Entity)=>boolean) {
+    selectByRule(predicate: (e: Entity) => boolean) {
         this.list.forEach((e, i) => {
             e.setSelected(predicate(e));
         });
     }
-    //endregion
-
-    //region getter/setters
-
-    //endregion
 
     //region computed properties
     @computed
@@ -138,7 +143,7 @@ export default class Entities extends Store {
 
     @computed
     get colorRamp() {
-        const {ui} = stores as Stores;
+        const { ui } = stores as Stores;
         return chroma.scale([
             '#1f0454',
             // '#6f2b97',

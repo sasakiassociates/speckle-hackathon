@@ -1,9 +1,8 @@
-import { observer } from "mobx-react";
-import { useEffect, useRef } from "react";
-import Entities, { Entity } from "../../stores/Entities";
-import { useStores } from "@strategies/stores";
-import { Stores } from "../../stores";
-import { Button } from "@strategies/ui";
+import {observer} from "mobx-react";
+import {Entity} from "../../stores/Entities";
+import {useStores} from "@strategies/stores";
+import {Stores} from "../../stores";
+import {Button} from "@strategies/ui";
 
 
 type ListItemProps = {
@@ -20,9 +19,9 @@ export const formatNum = (val: number) => {
     return `${Math.round(10 * (val)) / 10}`;
 };
 
-export const ListItem = observer(({ item }: ListItemProps) => {
+export const ListItem = observer(({item}: ListItemProps) => {
     const [a, b, objectTypeDisplay] = item.objectType.split('.');
-    const { app, ui } = useStores() as Stores;
+    const {app, ui} = useStores() as Stores;
 
     const href = `https://speckle.xyz/streams/${app.streamId}/objects/${item.id}`;
     return <div className={'ListItem' + (item.selected ? ' selected' : '')} onClick={() => {
@@ -69,12 +68,15 @@ export const ListItem = observer(({ item }: ListItemProps) => {
 type ListProps = {};
 
 export const List = observer(({}: ListProps) => {
-    const { entities, ui } = useStores() as Stores;
+    const {entities, ui, app} = useStores() as Stores;
 
     return <div className={'List'}>
         {entities.selectedDescending.map(e => <ListItem key={e.id} item={e}/>)}
         <Button onClick={() => {
             ui.setFilterMode(!ui.filterMode)
         }}>{ui.filterMode ? 'Clear Filter' : 'Filter'}</Button>
+        <Button onClick={() => {
+            app.sendSelected(entities.selected);
+        }} disabled={entities.selected.length === 0}>{'Send'}</Button>
     </div>
 });
