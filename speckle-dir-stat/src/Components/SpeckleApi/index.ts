@@ -18,6 +18,7 @@ export const send = async (data: Entity[], streamId: string, server: string, tok
 
     let speckleObjs: SpeckleBaseObject[] = [];
 
+    // NOTE: The objects bound to the entity are three.js based objects. We would need to load the commit without the speckle view object loader or load each commit twice.
     data.forEach(x => {
         speckleObjs.push({ id: x.id, speckle_type: x.objectType, data: x.bindObject })
     })

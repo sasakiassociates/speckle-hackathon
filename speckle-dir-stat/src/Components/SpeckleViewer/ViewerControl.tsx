@@ -12,6 +12,7 @@ const loadEntities = async (viewer: Viewer, entities: Entities) => {
     const { app, ui } = stores as Stores;
 
 
+    //TODO: Use API to load object and parse the object into the three.js converter / viewer
     await viewer.loadObject(await app.getObjectUrl());
     // for await (const entity of entities.list) {
     //     ;//${entity.id}`);
