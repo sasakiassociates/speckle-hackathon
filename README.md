@@ -16,3 +16,5 @@ This prototype is an interactive visualization for any user to understand the we
 
 In our group at Sasaki we often collaborate with design teams to integrate different technologies or workflow which typically results in the team sharing some sort of model, and it’s a been a common issue that we are handed a model that is extremely heavy but only has simple box-like geometry. We might end up jumping into their model and trying to find these lil’ chunky trouble makers and do some manual clean up. One time we were given a model of a campus master plan that represented the building masses with box geometry but the file was still massive. After a bit of snooping around we found multiple culprits with one of the main ones being a basketball hoop with the hope net fully modeled, hidden within one of the massing boxes 🤢   
 
+Here is our submission video
+[![Speckle Dir Stat](http://img.youtube.com/vi/PuqQshOqyEg/0.jpg)](http://www.youtube.com/watch?v=PuqQshOqyEg"Speckle Dir Stat")
